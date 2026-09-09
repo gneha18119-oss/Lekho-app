@@ -1,7 +1,17 @@
-script: |
-  bash gradlew assembleDebug --stacktrace --console=plain > build.log 2>&1
-  RESULT=$?
-  echo "===== ACTUAL ERROR ====="
-  grep -nE "FAILURE:|What went wrong:|Caused by:|error:|Error:" build.log | tail -100
-  echo "===== END ERROR ====="
-  exit $RESULT
+workflows:
+  android-apk:
+    name: Lekho Android APK
+    environment:
+      java: 17
+    scripts:
+      - name: Build APK
+        script: |
+          bash gradlew assembleDebug --stacktrace --console=plain > build.log 2>&1
+          RESULT=$?
+          echo "===== ACTUAL ERROR ====="
+          grep -nE "FAILURE:|What went wrong:|Caused by:|error:|Error:" build.log | tail -100
+          echo "===== END ERROR ====="
+          exit $RESULT
+    artifacts:
+      - app/build/outputs/**/*.apk
+  
