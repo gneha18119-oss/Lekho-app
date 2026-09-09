@@ -1,10 +1,6 @@
-workflows:
-  android-apk:
-    name: Lekho Android APK
-    environment:
-      java: 17
-    scripts:
-      - name: Build APK
-        script: bash gradlew assembleDebug --stacktrace
-    artifacts:
-      - app/build/outputs/**/*.apk
+
+script: |
+  bash gradlew assembleDebug --stacktrace --console=plain > build.log 2>&1
+  RESULT=$?
+  tail -n 300 build.log
+  exit $RESULT
