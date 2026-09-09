@@ -14,4 +14,3 @@ workflows:
           exit $RESULT
     artifacts:
       - app/build/outputs/**/*.apk
-  
