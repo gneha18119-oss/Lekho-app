@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "851582729617",
+    "project_id": "lekho-59d2e",
+    "storage_bucket": "lekho-59d2e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851582729617:android:b42f31031fd078caa26e30",
+        "android_client_info": {
+          "package_name": "com.lekho.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4Ln6M6hXuAW5PxEgoQwGlxUnHEI5dggE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
