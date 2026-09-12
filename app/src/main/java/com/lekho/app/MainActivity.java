@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         if (webView != null) {
             webView.destroy();
         }
+
         super.onDestroy();
     }
 }
