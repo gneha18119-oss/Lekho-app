@@ -1,0 +1,315 @@
+package com.lekho.app;
+
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.graphics.Color;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import java.util.ArrayList;
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity {
+    private static final int MIC_REQUEST = 1001;
+    private WebView webView;
+    private SpeechRecognizer speechRecognizer;
+    private TextToSpeech textToSpeech;
+    private boolean waitingForPermission = false;
+    private FirebaseAuth firebaseAuth;
+    private String otpVerificationId;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        webView = new WebView(this);
+        webView.setBackgroundColor(Color.WHITE);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.setWebViewClient(new WebViewClient());
+        webView.addJavascriptInterface(new SpeechBridge(), "AndroidSpeech");
+        FirebaseApp.initializeApp(this);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        textToSpeech = new TextToSpeech(this, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                textToSpeech.setLanguage(new Locale("hi", "IN"));
+                textToSpeech.setSpeechRate(0.95f);
+            }
+        });
+
+        setContentView(webView);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, MIC_REQUEST);
+        }
+
+        webView.loadUrl("file:///android_asset/index.html");
+    }
+
+    private void startNativeSpeech() {
+        if (!SpeechRecognizer.isRecognitionAvailable(this)) {
+            sendError("इस फोन में Hindi Voice Recognition उपलब्ध नहीं है।");
+            return;
+        }
+
+        if (speechRecognizer != null) {
+            try { speechRecognizer.destroy(); } catch (Exception ignored) {}
+        }
+
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override public void onReadyForSpeech(Bundle params) { sendStatus("🎤 Mic चालू है… अब बोलिए"); }
+            @Override public void onBeginningOfSpeech() { sendStatus("🎤 सुन रहा हूँ…"); }
+            @Override public void onRmsChanged(float rmsdB) {}
+            @Override public void onBufferReceived(byte[] buffer) {}
+            @Override public void onEndOfSpeech() {}
+            @Override public void onPartialResults(Bundle partialResults) {}
+            @Override public void onEvent(int eventType, Bundle params) {}
+
+            @Override public void onResults(Bundle results) {
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (matches != null && !matches.isEmpty()) {
+                    sendResult(matches.get(0));
+                } else {
+                    sendError("आवाज़ समझ नहीं आई। फिर से Mic दबाएँ।");
+                }
+                destroyRecognizer();
+            }
+
+            @Override public void onError(int error) {
+                String msg;
+                switch (error) {
+                    case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
+                        msg = "Microphone permission Allow करें।"; break;
+                    case SpeechRecognizer.ERROR_NO_MATCH:
+                        msg = "आवाज़ समझ नहीं आई। फिर से साफ बोलें।"; break;
+                    case SpeechRecognizer.ERROR_NETWORK:
+                    case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
+                        msg = "Voice service के लिए Internet चालू रखें।"; break;
+                    case SpeechRecognizer.ERROR_AUDIO:
+                        msg = "Microphone उपलब्ध नहीं है या किसी दूसरे app ने उसे इस्तेमाल किया है।"; break;
+                    default:
+                        msg = "Voice input शुरू नहीं हो पाया। फिर से Mic दबाएँ।";
+                }
+                sendError(msg);
+                destroyRecognizer();
+            }
+        });
+
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "hi-IN");
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "hi-IN");
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, false);
+
+        try {
+            speechRecognizer.startListening(intent);
+        } catch (Exception e) {
+            sendError("Microphone अभी शुरू नहीं हो पाया। फिर कोशिश करें।");
+            destroyRecognizer();
+        }
+    }
+
+    private void destroyRecognizer() {
+        if (speechRecognizer != null) {
+            try { speechRecognizer.stopListening(); } catch (Exception ignored) {}
+            try { speechRecognizer.destroy(); } catch (Exception ignored) {}
+            speechRecognizer = null;
+        }
+    }
+
+    private void sendResult(String text) {
+        if (webView == null) return;
+        String safe = text == null ? "" : text.replace("\\", "\\\\").replace("'", "\\'").replace("\n", " ").replace("\r", " ");
+        webView.post(() -> webView.evaluateJavascript("window.__nativeSpeechResult('" + safe + "')", null));
+    }
+
+    private void sendError(String message) {
+        if (webView == null) return;
+        String safe = message == null ? "Voice input शुरू नहीं हो पाया।" : message.replace("\\", "\\\\").replace("'", "\\'").replace("\n", " ").replace("\r", " ");
+        webView.post(() -> webView.evaluateJavascript("window.__nativeSpeechError('" + safe + "')", null));
+    }
+
+    private void sendStatus(String message) {
+        if (webView == null) return;
+        String safe = message == null ? "🎤 सुन रहा हूँ…" : message.replace("\\", "\\\\").replace("'", "\\'");
+        webView.post(() -> webView.evaluateJavascript("window.showMicStatus && window.showMicStatus('" + safe + "')", null));
+    }
+
+    private class SpeechBridge {
+        @JavascriptInterface
+        public void startSpeech() {
+            runOnUiThread(() -> {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                    waitingForPermission = true;
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, MIC_REQUEST);
+                    return;
+                }
+                startNativeSpeech();
+            });
+        }
+
+        @JavascriptInterface
+        public void sendOtp(String phoneNumber) {
+            runOnUiThread(() -> {
+                if (firebaseAuth == null) {
+                    FirebaseApp.initializeApp(MainActivity.this);
+                    firebaseAuth = FirebaseAuth.getInstance();
+                }
+                try {
+                    PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth)
+                            .setPhoneNumber(phoneNumber)
+                            .setTimeout(60L, java.util.concurrent.TimeUnit.SECONDS)
+                            .setActivity(MainActivity.this)
+                            .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                @Override public void onVerificationCompleted(@NonNull PhoneAuthCredential credential) {
+                                    // Automatic verification may occur; keep the manual OTP flow predictable.
+                                }
+                                @Override public void onVerificationFailed(@NonNull FirebaseException e) {
+                                    sendOtpError("OTP नहीं भेजा जा सका। " + firebaseErrorMessage(e));
+                                }
+                                @Override public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken token) {
+                                    otpVerificationId = verificationId;
+                                    sendOtpSent(verificationId);
+                                }
+                            }).build();
+                    PhoneAuthProvider.verifyPhoneNumber(options);
+                } catch (Exception e) {
+                    sendOtpError("OTP शुरू नहीं हो पाया। " + firebaseErrorMessage(e));
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void verifyOtp(String verificationId, String code) {
+            runOnUiThread(() -> {
+                try {
+                    String id = (verificationId == null || verificationId.isEmpty()) ? otpVerificationId : verificationId;
+                    if (id == null || id.isEmpty()) { sendOtpError("पहले OTP भेजें।"); return; }
+                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(id, code);
+                    firebaseAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            sendOtpVerified();
+                            if (firebaseAuth.getCurrentUser() != null) {
+                                try { firebaseAuth.signOut(); } catch (Exception ignored) {}
+                            }
+                        } else {
+                            sendOtpError("OTP गलत है या expire हो गया।");
+                        }
+                    });
+                } catch (Exception e) {
+                    sendOtpError("OTP verify नहीं हो पाया। सही OTP डालें और फिर कोशिश करें।");
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void speakHindi(String text) {
+            runOnUiThread(() -> {
+                if (textToSpeech == null) return;
+                textToSpeech.stop();
+                textToSpeech.speak(text == null ? "" : text, TextToSpeech.QUEUE_FLUSH, null, "lekho_reply");
+            });
+        }
+    }
+
+    private void sendOtpSent(String verificationId) {
+        if (webView == null) return;
+        String safe = verificationId.replace("\\", "\\\\").replace("'", "\\'");
+        webView.post(() -> webView.evaluateJavascript("window.__otpSent && window.__otpSent('" + safe + "')", null));
+    }
+
+    private void sendOtpVerified() {
+        if (webView == null) return;
+        webView.post(() -> webView.evaluateJavascript("window.__otpVerified && window.__otpVerified()", null));
+    }
+
+    private void sendOtpError(String message) {
+        if (webView == null) return;
+        String safe = message == null ? "OTP error" : message.replace("\\", "\\\\").replace("'", "\\'").replace("\n", " ").replace("\r", " ");
+        webView.post(() -> webView.evaluateJavascript("window.__otpError && window.__otpError('" + safe + "')", null));
+    }
+
+
+    private String firebaseErrorMessage(Exception e) {
+        String m = e == null ? "" : e.getMessage();
+        if (m == null || m.trim().isEmpty()) return "Firebase Phone Auth settings, SHA-1 और Internet जांचें।";
+        String x = m.toLowerCase(Locale.ROOT);
+        if (x.contains("too-many-requests")) return "बहुत बार OTP मांगा गया है। थोड़ी देर बाद फिर कोशिश करें।";
+        if (x.contains("invalid-phone-number")) return "मोबाइल नंबर गलत है।";
+        if (x.contains("quota")) return "OTP quota पूरा हो गया है। Firebase में Phone Auth जांचें।";
+        if (x.contains("app-not-authorized")) return "यह ऐप Firebase Phone Auth के लिए authorized नहीं है। SHA-1/Package ID जांचें।";
+        if (x.contains("network")) return "Internet connection जांचें।";
+        return m;
+    }
+    private boolean windowHasSpeechCallback() {
+        // The JS callback is intentionally checked by starting only when a speech request is pending.
+        return waitingForPermission;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MIC_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (waitingForPermission && windowHasSpeechCallback()) startNativeSpeech();
+            } else {
+                sendError("Microphone permission Allow करें, तभी Voice Typing चलेगी।");
+            }
+            waitingForPermission = false;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView != null) {
+            webView.evaluateJavascript("(function(){var m=document.querySelector('.productModal');if(m){m.remove();return 'modal';}var p=document.querySelector('.nav button.active');var page=p?p.getAttribute('data-page'):'';if(page&&page!=='home'){document.querySelector('[data-page=home]')?.click();return 'page';}return 'exit';})()", value -> {
+                if ("\"exit\"".equals(value)) MainActivity.super.onBackPressed();
+            });
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        destroyRecognizer();
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+            textToSpeech = null;
+        }
+        if (webView != null) webView.destroy();
+        super.onDestroy();
+    }
+    @Override
+    public void onBackPressed() {
+        if (webView != null) {
+            webView.evaluateJavascript("window.__nativeBack && window.__nativeBack()", null);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+}
