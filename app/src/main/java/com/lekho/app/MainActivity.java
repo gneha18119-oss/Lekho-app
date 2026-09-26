@@ -36,28 +36,32 @@ public class MainActivity extends Activity {
         webView.setWebChromeClient(new WebChromeClient() {
 
             @Override
-            public void onPermissionRequest(final PermissionRequest request) {
+            public void onPermissionRequest(
+                    final PermissionRequest request) {
 
-                runOnUiThread(() -> {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                        if (checkSelfPermission(
-                                Manifest.permission.RECORD_AUDIO
-                        ) != PackageManager.PERMISSION_GRANTED) {
+                            if (checkSelfPermission(
+                                    Manifest.permission.RECORD_AUDIO)
+                                    != PackageManager.PERMISSION_GRANTED) {
 
-                            requestPermissions(
-                                    new String[]{
-                                            Manifest.permission.RECORD_AUDIO
-                                    },
-                                    AUDIO_PERMISSION_CODE
-                            );
+                                requestPermissions(
+                                        new String[]{
+                                                Manifest.permission.RECORD_AUDIO
+                                        },
+                                        AUDIO_PERMISSION_CODE
+                                );
 
-                            return;
+                                return;
+                            }
                         }
-                    }
 
-                    request.grant(request.getResources());
+                        request.grant(request.getResources());
+                    }
                 });
             }
         });
@@ -74,10 +78,52 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             if (checkSelfPermission(
-                    Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED) {
+                    Manifest.permission.RECORD_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED) {
 
                 requestPermissions(
                         new String[]{
                                 Manifest.permission.RECORD_AUDIO
                         },
+                        AUDIO_PERMISSION_CODE
+                );
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String[] permissions,
+            int[] grantResults) {
+
+        super.onRequestPermissionsResult(
+                requestCode,
+                permissions,
+                grantResults
+        );
+
+        if (requestCode == AUDIO_PERMISSION_CODE) {
+
+            if (grantResults.length > 0 &&
+                    grantResults[0] ==
+                            PackageManager.PERMISSION_GRANTED) {
+
+                // Microphone permission granted.
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (webView != null && webView.canGoBack()) {
+
+            webView.goBack();
+
+        } else {
+
+            super.onBackPressed();
+        }
+    }
+}
