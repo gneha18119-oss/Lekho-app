@@ -1,25 +1,26 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.gms.google-services'
 }
 
 android {
     namespace 'com.lekho.app'
-    compileSdk 35
+
+    compileSdk 36
 
     defaultConfig {
         applicationId 'com.lekho.app'
+
         minSdk 23
-        targetSdk 35
+        targetSdk 36
+
         versionCode 1
         versionName '1.0'
     }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.webkit:webkit:1.12.1'
 
-    implementation platform('com.google.firebase:firebase-bom:33.7.0')
-    implementation 'com.google.firebase:firebase-auth'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+
+    implementation 'androidx.webkit:webkit:1.14.0'
 }
