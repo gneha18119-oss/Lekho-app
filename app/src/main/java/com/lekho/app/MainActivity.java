@@ -17,11 +17,11 @@ import java.util.Locale;
 
 public class MainActivity extends Activity {
 
-    private static final int RECORD_AUDIO_REQUEST = 1001;
-    private static final int SPEECH_REQUEST = 1002;
+    private static final int MIC_PERMISSION = 101;
+    private static final int SPEECH_REQUEST = 102;
 
     private WebView webView;
-    private String activeInputId = "";
+    private String inputId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,54 +34,65 @@ public class MainActivity extends Activity {
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
-        settings.setMediaPlaybackRequiresUserGesture(false);
 
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
 
-        webView.addJavascriptInterface(new MicBridge(), "LekhoMic");
+        webView.addJavascriptInterface(
+                new MicBridge(),
+                "LekhoMic"
+        );
 
         setContentView(webView);
-        webView.loadUrl("file:///android_asset/index.html");
+
+        webView.loadUrl(
+                "file:///android_asset/index.html"
+        );
+
+        requestMicPermissionIfNeeded();
+    }
+
+    private void requestMicPermissionIfNeeded() {
 
         if (android.os.Build.VERSION.SDK_INT >= 23 &&
-                checkSelfPermission(Manifest.permission.RECORD_AUDIO)
-                        != PackageManager.PERMISSION_GRANTED) {
+                checkSelfPermission(
+                        Manifest.permission.RECORD_AUDIO
+                ) != PackageManager.PERMISSION_GRANTED) {
 
             requestPermissions(
-                    new String[]{Manifest.permission.RECORD_AUDIO},
-                    RECORD_AUDIO_REQUEST
+                    new String[]{
+                            Manifest.permission.RECORD_AUDIO
+                    },
+                    MIC_PERMISSION
             );
         }
     }
 
-    public class MicBridge {
+    private void startListening(String id) {
 
-        @JavascriptInterface
-        public void startListening(String inputId) {
+        inputId = id == null ? "" : id;
 
-            activeInputId = inputId;
+        if (android.os.Build.VERSION.SDK_INT >= 23 &&
+                checkSelfPermission(
+                        Manifest.permission.RECORD_AUDIO
+                ) != PackageManager.PERMISSION_GRANTED) {
 
-            if (android.os.Build.VERSION.SDK_INT >= 23 &&
-                    checkSelfPermission(Manifest.permission.RECORD_AUDIO)
-                            != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.RECORD_AUDIO
+                    },
+                    MIC_PERMISSION
+            );
 
-                requestPermissions(
-                        new String[]{Manifest.permission.RECORD_AUDIO},
-                        RECORD_AUDIO_REQUEST
-                );
-
-                return;
-            }
-
-            startSpeechRecognition();
+            return;
         }
-    }
-
-    private void startSpeechRecognition() {
 
         try {
-            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+            Intent intent =
+                    new Intent(
+                            RecognizerIntent.ACTION_RECOGNIZE_SPEECH
+                    );
 
             intent.putExtra(
                     RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -94,8 +105,8 @@ public class MainActivity extends Activity {
             );
 
             intent.putExtra(
-                    RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
-                    Locale.getDefault()
+                    RecognizerIntent.EXTRA_MAX_RESULTS,
+                    1
             );
 
             intent.putExtra(
@@ -103,16 +114,30 @@ public class MainActivity extends Activity {
                     "बोलिए..."
             );
 
-            intent.putExtra(
-                    RecognizerIntent.EXTRA_MAX_RESULTS,
-                    1
+            startActivityForResult(
+                    intent,
+                    SPEECH_REQUEST
             );
 
-            startActivityForResult(intent, SPEECH_REQUEST);
-
         } catch (Exception e) {
-            sendMicMessage("Mic उपलब्ध नहीं है");
+
+            sendError(
+                    "इस फोन में voice recognition उपलब्ध नहीं है"
+            );
         }
+    }
+
+    private void sendError(String message) {
+
+        String safe =
+                message
+                        .replace("\\", "\\\\")
+                        .replace("'", "\\'");
+
+        webView.evaluateJavascript(
+                "micError('" + safe + "')",
+                null
+        );
     }
 
     @Override
@@ -121,7 +146,11 @@ public class MainActivity extends Activity {
             int resultCode,
             Intent data) {
 
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(
+                requestCode,
+                resultCode,
+                data
+        );
 
         if (requestCode != SPEECH_REQUEST) {
             return;
@@ -134,46 +163,39 @@ public class MainActivity extends Activity {
                             RecognizerIntent.EXTRA_RESULTS
                     );
 
-            if (results != null && !results.isEmpty()) {
+            if (results != null &&
+                    !results.isEmpty()) {
 
                 String text = results.get(0);
 
-                String safeText = text
-                        .replace("\\", "\\\\")
-                        .replace("'", "\\'")
-                        .replace("\n", " ")
-                        .replace("\r", " ");
+                String safe =
+                        text
+                                .replace("\\", "\\\\")
+                                .replace("'", "\\'")
+                                .replace("\n", " ")
+                                .replace("\r", " ");
 
-                String javascript =
+                String id =
+                        inputId
+                                .replace("\\", "\\\\")
+                                .replace("'", "\\'");
+
+                webView.evaluateJavascript(
                         "setMicText('" +
-                        activeInputId +
-                        "','" +
-                        safeText +
-                        "')";
-
-                webView.evaluateJavascript(javascript, null);
+                                id +
+                                "','" +
+                                safe +
+                                "')",
+                        null
+                );
 
             } else {
-                sendMicMessage("आवाज़ समझ नहीं आई");
+
+                sendError(
+                        "आवाज़ समझ नहीं आई"
+                );
             }
-
-        } else {
-            sendMicMessage("Mic बंद किया गया");
         }
-    }
-
-    private void sendMicMessage(String message) {
-
-        String safeMessage = message
-                .replace("\\", "\\\\")
-                .replace("'", "\\'")
-                .replace("\n", " ")
-                .replace("\r", " ");
-
-        String javascript =
-                "micError('" + safeMessage + "')";
-
-        webView.evaluateJavascript(javascript, null);
     }
 
     @Override
@@ -188,30 +210,31 @@ public class MainActivity extends Activity {
                 grantResults
         );
 
-        if (requestCode == RECORD_AUDIO_REQUEST) {
+        if (requestCode == MIC_PERMISSION) {
 
             if (grantResults.length > 0 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    grantResults[0] ==
+                            PackageManager.PERMISSION_GRANTED) {
 
-                if (!activeInputId.isEmpty()) {
-                    startSpeechRecognition();
+                if (!inputId.isEmpty()) {
+                    startListening(inputId);
                 }
 
             } else {
-                sendMicMessage(
+
+                sendError(
                         "Mic permission allow करें"
                 );
             }
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    public class MicBridge {
 
-        if (webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
+        @JavascriptInterface
+        public void startListening(String id) {
+
+            MainActivity.this.startListening(id);
         }
     }
 }
