@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>लेखो</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f6f8;color:#222}
+header{background:#1f6f43;color:#fff;padding:16px;text-align:center;font-size:25px;font-weight:bold}
+nav{display:flex;background:#fff;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:5}
+nav button{flex:1;border:0;background:#fff;padding:13px 2px;font-size:13px}
+nav button.active{color:#1f6f43;font-weight:bold;border-bottom:3px solid #1f6f43}
+.page{display:none;padding:16px;max-width:700px;margin:auto}.page.active{display:block}
+.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #0001}
+label{display:block;font-weight:bold;margin:12px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:9px;font-size:16px;background:#fff}
+.row{display:flex;gap:9px}.row input{flex:1}.mic{width:52px;border:0;border-radius:9px;background:#e8f4ed;font-size:20px}
+.actions{display:flex;gap:10px;margin-top:16px}.actions button{flex:1;padding:12px;border:0;border-radius:9px;font-size:16px}
+.cancel{background:#eee}.save{background:#1f6f43;color:#fff}
+.item{border:1px solid #ddd;border-radius:10px;padding:12px;margin-top:10px}
+.low{border-left:5px solid #d88a00;background:#fff8e8}.danger{color:#b00020;font-weight:bold}
+.muted{color:#666}.smallbtn{border:0;border-radius:7px;padding:8px 11px;margin-top:8px}
+.stat{font-size:24px;font-weight:bold}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:11px 16px;border-radius:9px;display:none;z-index:20}
+</style>
+</head>
+<body>
+<header>लेखो</header>
+<nav>
+<button id="n-home" class="active" onclick="showPage('home')">Home</button>
+<button id="n-stock" onclick="showPage('stock')">Stock</button>
+<button id="n-sale" onclick="showPage('sale')">Sale</button>
+<button id="n-khata" onclick="showPage('khata')">Khata</button>
+<button id="n-report" onclick="showPage('report')">Report</button>
+</nav>
+
+<section id="home" class="page active"><div class="card"><h2>लेखो में आपका स्वागत है</h2><p>Stock, Sale और Khata एक ही जगह संभालें।</p></div></section>
+
+<section id="stock" class="page">
+<div class="card"><h2>Stock जोड़ें</h2>
+<label>Item Name</label><div class="row"><input id="stockName" placeholder="जैसे Sugar"><button class="mic" onclick="listen('stockName')">🎤</button></div>
+<label>Quantity</label><input id="stockQty" type="number" min="0" step="any">
+<label>Unit</label><select id="stockUnit"><option>pcs</option><option>kg</option><option>litre</option><option>box</option><option>pair</option><option>dozen</option></select>
+<label>Low Stock Level</label><input id="stockLow" type="number" min="0" step="any">
+<div class="actions"><button class="cancel" onclick="clearStock()">Cancel</button><button class="save" onclick="saveStock()">Save</button></div>
+</div><div class="card"><h2>Stock List</h2><div id="stockList"></div></div>
+</section>
+
+<section id="sale" class="page">
+<div class="card"><h2>Sale</h2>
+<label>Item Name</label><div class="row"><input id="saleName" placeholder="Item"><button class="mic" onclick="listen('saleName')">🎤</button></div>
+<label>Quantity</label><input id="saleQty" type="number" min="0" step="any">
+<label>Amount (₹)</label><input id="saleAmount" type="number" min="0" step="any">
+<label>Customer Mobile (optional)</label><input id="saleMobile" inputmode="numeric" maxlength="10" placeholder="10 digit mobile">
+<label>Payment</label><select id="salePayment"><option value="paid">Paid</option><option value="due">Due</option></select>
+<div class="actions"><button class="cancel" onclick="clearSale()">Cancel</button><button class="save" onclick="saveSale()">Save Sale</button></div>
+</div></section>
+
+<section id="khata" class="page"><div class="card"><h2>Khata</h2><div id="khataList"></div></div></section>
+<section id="report" class="page"><div class="card"><h2>Report</h2>
+<p>Total Sales</p><div class="stat" id="rSales">₹0</div><p>Total Paid</p><div class="stat" id="rPaid">₹0</div><p>Outstanding</p><div class="stat danger" id="rDue">₹0</div><p>Transactions</p><div class="stat" id="rTx">0</div>
+</div></section>
+<div id="toast" class="toast"></div>
+
+<script>
+const KEY='lekho_mvp_v2';
+function data(){try{return JSON.parse(localStorage.getItem(KEY))||{stock:[],sales:[],khata:[]}}catch(e){return{stock:[],sales:[],khata:[]}}}
+function saveData(d){localStorage.setItem(KEY,JSON.stringify(d));renderAll()}
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';clearTimeout(window.__t);window.__t=setTimeout(()=>t.style.display='none',2200)}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.getElementById('n-'+id).classList.add('active');renderAll()}
+function listen(id){
+ if(window.LekhoMic&&typeof window.LekhoMic.startListening==='function'){toast('बोलिए...');window.LekhoMic.startListening(id);return}
+ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){toast('Mic उपलब्ध नहीं है');return}
+ try{const r=new SR();r.lang='hi-IN';r.interimResults=false;r.maxAlternatives=1;r.onresult=e=>document.getElementById(id).value=e.results[0][0].transcript;r.onerror=()=>toast('Mic से आवाज नहीं मिली');r.start()}catch(e){toast('Mic शुरू नहीं हो पाया')}
+}
+function setMicText(id,text){const e=document.getElementById(id);if(e){e.value=text;e.focus();toast('आवाज़ दर्ज हो गई')}}
+function micError(m){toast(m)}
+function clearStock(){['stockName','stockQty','stockLow'].forEach(x=>document.getElementById(x).value='');document.getElementById('stockUnit').value='pcs'}
+function saveStock(){
+ let name=document.getElementById('stockName').value.trim(),qty=Number(document.getElementById('stockQty').value),low=Number(document.getElementById('stockLow').value||0),unit=document.getElementById('stockUnit').value;
+ if(!name){toast('Item name भरें');return}if(!(qty>=0)){toast('Quantity सही भरें');return}
+ let d=data(),x=d.stock.find(a=>a.name.toLowerCase()===name.toLowerCase()&&a.unit===unit);
+ if(x){x.qty+=qty;x.low=low}else d.stock.push({id:Date.now(),name,qty,low,unit});saveData(d);clearStock();toast('Stock saved')
+}
+function deleteStock(id){if(!confirm('क्या आप यह stock delete करना चाहते हैं?'))return;let d=data();d.stock=d.stock.filter(x=>x.id!==id);saveData(d)}
+function renderStock(){let b=document.getElementById('stockList'),d=data();if(!d.stock.length){b.innerHTML='<p class="muted">अभी कोई stock नहीं है।</p>';return}b.innerHTML=d.stock.map(x=>'<div class="item '+(x.qty<=x.low?'low':'')+'"><b>'+esc(x.name)+'</b><br>'+x.qty+' '+esc(x.unit)+(x.qty<=x.low?'<div class="danger">⚠ Low Stock</div>':'')+'<br><button class="smallbtn" onclick="deleteStock('+x.id+')">Delete</button></div>').join('')}
+function clearSale(){['saleName','saleQty','saleAmount','saleMobile'].forEach(x=>document.getElementById(x).value='');document.getElementById('salePayment').value='paid'}
+function saveSale(){
+ let name=document.getElementById('saleName').value.trim(),qty=Number(document.getElementById('saleQty').value),amount=Number(document.getElementById('saleAmount').value),mobile=document.getElementById('saleMobile').value.trim(),payment=document.getElementById('salePayment').value;
+ if(!name){toast('Item name भरें');return}if(!(qty>0)||!(amount>=0)){toast('Quantity और amount सही भरें');return}if(mobile&&!/^\d{10}$/.test(mobile)){toast('Mobile number 10 digits का होना चाहिए');return}
+ let d=data(),s=d.stock.find(x=>x.name.toLowerCase()===name.toLowerCase());if(s){if(s.qty<qty){toast('Stock कम है');return}s.qty-=qty}
+ let sale={id:Date.now(),name,qty,amount,mobile,payment,date:new Date().toISOString()};d.sales.push(sale);if(payment==='due')d.khata.push({id:sale.id,name,mobile,original:amount,paid:0,balance:amount,date:sale.date});saveData(d);clearSale();toast('Sale saved')
+}
+function addPayment(id){let d=data(),k=d.khata.find(x=>x.id===id);if(!k)return;let v=prompt('कितना payment मिला?','0');if(v===null)return;let p=Number(v);if(!(p>0)){toast('Payment सही भरें');return}k.paid=Math.min(k.original,k.paid+p);k.balance=k.original-k.paid;d.khata=d.khata.filter(x=>x.balance>0);saveData(d)}
+function renderKhata(){let b=document.getElementById('khataList'),d=data();if(!d.khata.length){b.innerHTML='<p class="muted">कोई उधारी नहीं है।</p>';return}b.innerHTML=d.khata.map(k=>'<div class="item"><b>'+esc(k.name)+'</b>'+(k.mobile?'<br>Mobile: '+esc(k.mobile):'')+'<br>Total: ₹'+k.original+'<br>Paid: ₹'+k.paid+'<br><span class="danger">उधारी: ₹'+k.balance+'</span><br><button class="smallbtn" onclick="addPayment('+k.id+')">Add Payment</button></div>').join('')}
+function renderReport(){let d=data(),sales=d.sales.reduce((a,x)=>a+Number(x.amount||0),0),paid=d.sales.filter(x=>x.payment==='paid').reduce((a,x)=>a+Number(x.amount||0),0),due=d.khata.reduce((a,x)=>a+Number(x.balance||0),0);document.getElementById('rSales').textContent='₹'+sales;document.getElementById('rPaid').textContent='₹'+paid;document.getElementById('rDue').textContent='₹'+due;document.getElementById('rTx').textContent=d.sales.length}
+function renderAll(){renderStock();renderKhata();renderReport()}renderAll();
+</script>
+</body>
+</html>
