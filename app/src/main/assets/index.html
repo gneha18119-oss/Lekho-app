@@ -2,144 +2,183 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
 <title>लेखो</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
+
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f5f7fa;
-  color:#222;
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f7fa;
+    color:#222;
 }
+
 header{
-  background:#ffffff;
-  padding:16px;
-  text-align:center;
-  font-size:25px;
-  font-weight:bold;
-  border-bottom:1px solid #ddd;
+    background:#fff;
+    padding:16px;
+    text-align:center;
+    font-size:25px;
+    font-weight:bold;
+    border-bottom:1px solid #ddd;
 }
+
 nav{
-  display:flex;
-  background:#fff;
-  border-bottom:1px solid #ddd;
-  position:sticky;
-  top:0;
-  z-index:10;
+    display:flex;
+    background:#fff;
+    border-bottom:1px solid #ddd;
+    position:sticky;
+    top:0;
+    z-index:10;
 }
+
 nav button{
-  flex:1;
-  border:0;
-  background:#fff;
-  padding:12px 4px;
-  font-size:13px;
+    flex:1;
+    border:0;
+    background:#fff;
+    padding:12px 4px;
+    font-size:13px;
 }
+
 nav button.active{
-  font-weight:bold;
-  border-bottom:3px solid #222;
+    font-weight:bold;
+    border-bottom:3px solid #222;
 }
+
 .page{
-  display:none;
-  padding:16px;
+    display:none;
+    padding:16px;
 }
-.page.active{display:block}
+
+.page.active{
+    display:block;
+}
+
 .card{
-  background:#fff;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
+    background:#fff;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
-h2{margin-top:0}
+
+h2{
+    margin-top:0;
+}
+
 label{
-  display:block;
-  margin:12px 0 6px;
-  font-weight:bold;
+    display:block;
+    margin:12px 0 6px;
+    font-weight:bold;
 }
-input,select{
-  width:100%;
-  padding:12px;
-  border:1px solid #ccc;
-  border-radius:9px;
-  font-size:16px;
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:9px;
+    font-size:16px;
 }
+
 .row{
-  display:flex;
-  gap:8px;
+    display:flex;
+    gap:8px;
 }
-.row>*{flex:1}
+
+.row>*{
+    flex:1;
+}
+
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
+
 .primary{
-  width:100%;
-  padding:13px;
-  border:0;
-  border-radius:9px;
-  background:#222;
-  color:#fff;
-  font-size:16px;
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:9px;
+    background:#222;
+    color:#fff;
+    font-size:16px;
 }
+
 .secondary{
-  padding:11px;
-  border:1px solid #ccc;
-  border-radius:9px;
-  background:#fff;
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:9px;
+    background:#fff;
 }
+
 .danger{
-  color:#b00020;
+    color:#b00020;
 }
+
 .mic{
-  width:48px;
-  min-width:48px;
-  border:1px solid #ccc;
-  border-radius:9px;
-  background:#fff;
-  font-size:20px;
+    width:50px;
+    min-width:50px;
+    max-width:50px;
+    border:1px solid #ccc;
+    border-radius:9px;
+    background:#fff;
+    font-size:21px;
 }
+
 .item{
-  border:1px solid #e1e1e1;
-  border-radius:10px;
-  padding:12px;
-  margin-top:10px;
+    border:1px solid #e1e1e1;
+    border-radius:10px;
+    padding:12px;
+    margin-top:10px;
 }
+
 .low{
-  background:#fff0f0;
-  border-color:#e00000;
+    background:#fff0f0;
+    border-color:#e00000;
 }
+
 .badge{
-  display:inline-block;
-  padding:4px 8px;
-  border-radius:20px;
-  font-size:12px;
-  background:#eee;
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:12px;
+    background:#eee;
 }
+
 .due{
-  color:#c00000;
-  font-weight:bold;
+    color:#c00000;
+    font-weight:bold;
 }
+
 .paid{
-  color:#168000;
-  font-weight:bold;
+    color:#168000;
+    font-weight:bold;
 }
+
 .empty{
-  text-align:center;
-  color:#777;
-  padding:25px;
+    text-align:center;
+    color:#777;
+    padding:25px;
 }
+
 .toast{
-  position:fixed;
-  left:50%;
-  bottom:25px;
-  transform:translateX(-50%);
-  background:#222;
-  color:white;
-  padding:12px 18px;
-  border-radius:25px;
-  display:none;
-  z-index:100;
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%);
+    background:#222;
+    color:white;
+    padding:12px 18px;
+    border-radius:25px;
+    display:none;
+    z-index:100;
+    max-width:90%;
+    text-align:center;
 }
 </style>
 </head>
@@ -149,670 +188,1167 @@ button{
 <header>लेखो</header>
 
 <nav>
-  <button class="active" onclick="showPage('home',this)">Home</button>
-  <button onclick="showPage('stock',this)">Stock</button>
-  <button onclick="showPage('sale',this)">Sale</button>
-  <button onclick="showPage('khata',this)">Khata</button>
-  <button onclick="showPage('report',this)">Report</button>
+
+<button class="active"
+onclick="showPage('home',this)">
+Home
+</button>
+
+<button onclick="showPage('stock',this)">
+Stock
+</button>
+
+<button onclick="showPage('sale',this)">
+Sale
+</button>
+
+<button onclick="showPage('khata',this)">
+Khata
+</button>
+
+<button onclick="showPage('report',this)">
+Report
+</button>
+
 </nav>
 
-<!-- HOME -->
-<section id="home" class="page active">
-  <div class="card">
-    <h2>लेखो में आपका स्वागत है</h2>
-    <p>Stock, Sale और Khata एक ही जगह संभालें।</p>
-  </div>
 
-  <div class="card">
-    <h3>आज का सारांश</h3>
-    <div class="row">
-      <div>
-        <b id="homeSales">₹0</b>
-        <small>आज की Sale</small>
-      </div>
-      <div>
-        <b id="homeDue">₹0</b>
-        <small>उधारी</small>
-      </div>
-    </div>
-  </div>
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+<div class="card">
+
+<h2>लेखो में आपका स्वागत है</h2>
+
+<p>
+Stock, Sale और Khata एक ही जगह संभालें।
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>आज का सारांश</h3>
+
+<div class="row">
+
+<div>
+<b id="homeSales">₹0</b>
+<br>
+<small>कुल Sale</small>
+</div>
+
+<div>
+<b id="homeDue">₹0</b>
+<br>
+<small>उधारी</small>
+</div>
+
+</div>
+
+</div>
+
 </section>
+
 
 <!-- STOCK -->
+
 <section id="stock" class="page">
 
-  <div class="card">
-    <h2>Stock</h2>
+<div class="card">
 
-    <label>Item Name</label>
-    <div class="row">
-      <input id="stockName" type="text" placeholder="जैसे Sugar">
-      <button class="mic" onclick="listen('stockName')">🎤</button>
-    </div>
+<h2>Stock</h2>
 
-    <label>Quantity</label>
-    <input id="stockQty" type="number" min="0" step="any" placeholder="Quantity">
+<label>Item Name</label>
 
-    <label>Unit</label>
-    <select id="stockUnit">
-      <option value="pcs">Pieces</option>
-      <option value="kg">Kg</option>
-      <option value="litre">Litre</option>
-      <option value="box">Box</option>
-      <option value="pair">Pair</option>
-      <option value="dozen">Dozen</option>
-    </select>
+<div class="row">
 
-    <label>Low Stock Level</label>
-    <input id="lowLevel" type="number" min="0" step="any" placeholder="जैसे 5">
+<input
+id="stockName"
+type="text"
+placeholder="जैसे Sugar">
 
-    <br><br>
+<button
+class="mic"
+onclick="listen('stockName')">
+🎤
+</button>
 
-    <div class="row">
-      <button class="secondary" onclick="clearStockForm()">Cancel</button>
-      <button class="primary" onclick="saveStock()">Save</button>
-    </div>
-  </div>
+</div>
 
-  <div class="card">
-    <h3>Current Stock</h3>
-    <div id="stockList"></div>
-  </div>
+
+<label>Quantity</label>
+
+<input
+id="stockQty"
+type="number"
+min="0"
+step="any"
+placeholder="Quantity">
+
+
+<label>Unit</label>
+
+<select id="stockUnit">
+
+<option value="pcs">Pieces</option>
+<option value="kg">Kg</option>
+<option value="litre">Litre</option>
+<option value="box">Box</option>
+<option value="pair">Pair</option>
+<option value="dozen">Dozen</option>
+
+</select>
+
+
+<label>Low Stock Level</label>
+
+<input
+id="lowLevel"
+type="number"
+min="0"
+step="any"
+placeholder="जैसे 5">
+
+
+<br><br>
+
+<div class="row">
+
+<button
+class="secondary"
+onclick="clearStockForm()">
+Cancel
+</button>
+
+<button
+class="primary"
+onclick="saveStock()">
+Save
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Current Stock</h3>
+
+<div id="stockList"></div>
+
+</div>
 
 </section>
+
 
 <!-- SALE -->
+
 <section id="sale" class="page">
 
-  <div class="card">
-    <h2>Sale</h2>
+<div class="card">
 
-    <label>Item Name</label>
-    <div class="row">
-      <input id="saleName" type="text" placeholder="Item name">
-      <button class="mic" onclick="listen('saleName')">🎤</button>
-    </div>
+<h2>Sale</h2>
 
-    <label>Quantity</label>
-    <input id="saleQty" type="number" min="0" step="any" placeholder="Quantity">
+<label>Item Name</label>
 
-    <label>Amount</label>
-    <input id="saleAmount" type="number" min="0" step="any" placeholder="₹ Amount">
+<div class="row">
 
-    <label>Customer Mobile (optional)</label>
-    <input id="customerMobile" type="tel" inputmode="numeric" maxlength="10" placeholder="10 digit mobile">
+<input
+id="saleName"
+type="text"
+placeholder="Item name">
 
-    <label>Payment</label>
-    <select id="paymentType">
-      <option value="paid">Paid</option>
-      <option value="due">Due</option>
-    </select>
+<button
+class="mic"
+onclick="listen('saleName')">
+🎤
+</button>
 
-    <br><br>
+</div>
 
-    <div class="row">
-      <button class="secondary" onclick="clearSaleForm()">Cancel</button>
-      <button class="primary" onclick="saveSale()">Save Sale</button>
-    </div>
-  </div>
 
-  <div class="card">
-    <h3>Recent Sales</h3>
-    <div id="saleList"></div>
-  </div>
+<label>Quantity</label>
+
+<input
+id="saleQty"
+type="number"
+min="0"
+step="any"
+placeholder="Quantity">
+
+
+<label>Amount</label>
+
+<input
+id="saleAmount"
+type="number"
+min="0"
+step="any"
+placeholder="₹ Amount">
+
+
+<label>Customer Mobile (optional)</label>
+
+<input
+id="customerMobile"
+type="tel"
+inputmode="numeric"
+maxlength="10"
+placeholder="10 digit mobile">
+
+
+<label>Payment</label>
+
+<select id="paymentType">
+
+<option value="paid">
+Paid
+</option>
+
+<option value="due">
+Due
+</option>
+
+</select>
+
+
+<br><br>
+
+<div class="row">
+
+<button
+class="secondary"
+onclick="clearSaleForm()">
+Cancel
+</button>
+
+<button
+class="primary"
+onclick="saveSale()">
+Save Sale
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Recent Sales</h3>
+
+<div id="saleList"></div>
+
+</div>
 
 </section>
+
 
 <!-- KHATA -->
+
 <section id="khata" class="page">
 
-  <div class="card">
-    <h2>Khata</h2>
-    <div id="khataList"></div>
-  </div>
+<div class="card">
+
+<h2>Khata</h2>
+
+<div id="khataList"></div>
+
+</div>
 
 </section>
+
 
 <!-- REPORT -->
+
 <section id="report" class="page">
 
-  <div class="card">
-    <h2>Report</h2>
+<div class="card">
 
-    <p>Total Sales</p>
-    <h2 id="totalSales">₹0</h2>
+<h2>Report</h2>
 
-    <p>Total Paid</p>
-    <h2 id="totalPaid">₹0</h2>
+<p>Total Sales</p>
 
-    <p>Total Outstanding</p>
-    <h2 id="totalOutstanding">₹0</h2>
+<h2 id="totalSales">₹0</h2>
 
-    <p>Total Transactions</p>
-    <h2 id="totalTransactions">0</h2>
-  </div>
+<p>Total Paid</p>
+
+<h2 id="totalPaid">₹0</h2>
+
+<p>Total Outstanding</p>
+
+<h2 id="totalOutstanding">₹0</h2>
+
+<p>Total Transactions</p>
+
+<h2 id="totalTransactions">0</h2>
+
+</div>
 
 </section>
+
 
 <div id="toast" class="toast"></div>
 
+
 <script>
 
-const STORAGE_KEY = "lekho_mvp_v1";
+const STORAGE_KEY="lekho_mvp_v1";
 
-let db = loadDB();
+let db=loadDB();
 
-function loadDB(){
-  try{
-    const saved = localStorage.getItem(STORAGE_KEY);
-
-    if(!saved){
-      return {
-        stock:[],
-        sales:[],
-        khataList:[]
-      };
-    }
-
-    const data = JSON.parse(saved);
-
-    return {
-      stock:Array.isArray(data.stock) ? data.stock : [],
-      sales:Array.isArray(data.sales) ? data.sales : [],
-      khataList:Array.isArray(data.khataList) ? data.khataList :
-        (Array.isArray(data.khata) ? data.khata : [])
-    };
-
-  }catch(e){
-    return {
-      stock:[],
-      sales:[],
-      khataList:[]
-    };
-  }
-}
-
-function saveDB(){
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(db));
-  refreshAll();
-}
-
-function showPage(id,button){
-
-  document.querySelectorAll(".page").forEach(p=>{
-    p.classList.remove("active");
-  });
-
-  document.getElementById(id).classList.add("active");
-
-  document.querySelectorAll("nav button").forEach(b=>{
-    b.classList.remove("active");
-  });
-
-  if(button) button.classList.add("active");
-
-  refreshAll();
-}
-
-function money(n){
-  return "₹" + Number(n || 0).toLocaleString("en-IN");
-}
-
-function toast(message){
-
-  const t=document.getElementById("toast");
-
-  t.textContent=message;
-  t.style.display="block";
-
-  setTimeout(()=>{
-    t.style.display="none";
-  },2200);
-}
 
 /* ---------------- MIC ---------------- */
 
 function listen(inputId){
 
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+    if(
+        window.LekhoMic &&
+        typeof window.LekhoMic.startListening==="function"
+    ){
 
-  if(!SpeechRecognition){
-    toast("इस device/WebView में voice input उपलब्ध नहीं है");
-    return;
-  }
+        toast("🎤 बोलिए...");
 
-  try{
+        window.LekhoMic.startListening(inputId);
 
-    const recognition = new SpeechRecognition();
+        return;
+    }
 
-    recognition.lang="en-IN";
-    recognition.interimResults=false;
-    recognition.maxAlternatives=1;
-
-    recognition.onstart=()=>{
-      toast("बोलिए...");
-    };
-
-    recognition.onresult=(event)=>{
-
-      const text =
-        event.results[0][0].transcript;
-
-      document.getElementById(inputId).value=text;
-    };
-
-    recognition.onerror=()=>{
-      toast("Mic से आवाज नहीं मिली");
-    };
-
-    recognition.onend=()=>{};
-
-    recognition.start();
-
-  }catch(e){
-
-    toast("Mic शुरू नहीं हो पाया");
-
-  }
+    toast("Mic उपलब्ध नहीं है");
 }
 
-/* ---------------- STOCK ---------------- */
 
-function saveStock(){
+function setMicText(inputId,text){
 
-  const name=document.getElementById("stockName").value.trim();
-  const qty=Number(document.getElementById("stockQty").value);
-  const unit=document.getElementById("stockUnit").value;
-  const lowLevel=Number(document.getElementById("lowLevel").value || 0);
+    const input=document.getElementById(inputId);
 
-  if(!name){
-    toast("Item name डालें");
-    return;
-  }
+    if(input){
 
-  if(!Number.isFinite(qty) || qty<0){
-    toast("सही quantity डालें");
-    return;
-  }
+        input.value=text;
 
-  const existing=db.stock.find(
-    x=>x.name.toLowerCase()===name.toLowerCase()
-  );
+        input.focus();
 
-  if(existing){
-
-    existing.qty=qty;
-    existing.unit=unit;
-    existing.lowLevel=lowLevel;
-
-  }else{
-
-    db.stock.push({
-      id:Date.now(),
-      name,
-      qty,
-      unit,
-      lowLevel
-    });
-
-  }
-
-  saveDB();
-  clearStockForm();
-
-  toast("Stock saved");
+        toast("Mic से text भर दिया गया");
+    }
 }
 
-function clearStockForm(){
 
-  document.getElementById("stockName").value="";
-  document.getElementById("stockQty").value="";
-  document.getElementById("lowLevel").value="";
-  document.getElementById("stockUnit").value="pcs";
+function micError(message){
+
+    toast(message);
 }
 
-function deleteStock(id){
 
-  if(!confirm("क्या आप यह stock item delete करना चाहते हैं?")){
-    return;
-  }
+/* ---------------- DATABASE ---------------- */
 
-  db.stock=db.stock.filter(x=>x.id!==id);
+function loadDB(){
 
-  saveDB();
+    try{
 
-  toast("Stock deleted");
-}
+        const saved=
+            localStorage.getItem(STORAGE_KEY);
 
-function renderStock(){
+        if(!saved){
 
-  const box=document.getElementById("stockList");
-
-  if(!db.stock.length){
-    box.innerHTML='<div class="empty">अभी कोई stock नहीं है</div>';
-    return;
-  }
-
-  box.innerHTML=db.stock.map(item=>{
-
-    const isLow =
-      item.lowLevel>0 &&
-      Number(item.qty)<=Number(item.lowLevel);
-
-    return `
-      <div class="item ${isLow ? "low":""}">
-
-        <b>${escapeHTML(item.name)}</b>
-
-        <p>
-          Quantity:
-          <strong>${item.qty} ${escapeHTML(item.unit)}</strong>
-        </p>
-
-        ${
-          isLow
-          ? '<span class="badge danger">LOW STOCK</span>'
-          : ''
+            return{
+                stock:[],
+                sales:[],
+                khataList:[]
+            };
         }
 
-        <br><br>
+        const data=JSON.parse(saved);
 
-        <button
-          class="secondary danger"
-          onclick="deleteStock(${item.id})">
-          Delete
-        </button>
+        return{
 
-      </div>
-    `;
+            stock:
+                Array.isArray(data.stock)
+                ?data.stock:[],
 
-  }).join("");
+            sales:
+                Array.isArray(data.sales)
+                ?data.sales:[],
+
+            khataList:
+                Array.isArray(data.khataList)
+                ?data.khataList
+                :
+                (
+                    Array.isArray(data.khata)
+                    ?data.khata:[]
+                )
+        };
+
+    }catch(e){
+
+        return{
+            stock:[],
+            sales:[],
+            khataList:[]
+        };
+    }
 }
 
-/* ---------------- SALE ---------------- */
 
-function saveSale(){
+function saveDB(){
 
-  const name=document.getElementById("saleName").value.trim();
-  const qty=Number(document.getElementById("saleQty").value);
-  const amount=Number(document.getElementById("saleAmount").value);
-  const mobile=document.getElementById("customerMobile").value.trim();
-  const payment=document.getElementById("paymentType").value;
-
-  if(!name){
-    toast("Item name डालें");
-    return;
-  }
-
-  if(!Number.isFinite(qty) || qty<=0){
-    toast("सही quantity डालें");
-    return;
-  }
-
-  if(!Number.isFinite(amount) || amount<0){
-    toast("सही amount डालें");
-    return;
-  }
-
-  if(mobile && !/^[0-9]{10}$/.test(mobile)){
-    toast("गलत mobile number");
-    return;
-  }
-
-  const stockItem=db.stock.find(
-    x=>x.name.toLowerCase()===name.toLowerCase()
-  );
-
-  if(stockItem && stockItem.qty < qty){
-
-    toast("इतना stock उपलब्ध नहीं है");
-    return;
-  }
-
-  if(stockItem){
-    stockItem.qty=Number(stockItem.qty)-qty;
-  }
-
-  const sale={
-    id:Date.now(),
-    name,
-    qty,
-    amount,
-    mobile,
-    payment,
-    date:new Date().toISOString()
-  };
-
-  db.sales.unshift(sale);
-
-  if(payment==="due"){
-
-    db.khataList.push({
-      id:Date.now()+1,
-      mobile:mobile || "Customer",
-      amount,
-      paid:0,
-      date:sale.date
-    });
-
-  }
-
-  saveDB();
-  clearSaleForm();
-
-  toast("Sale saved");
-}
-
-function clearSaleForm(){
-
-  document.getElementById("saleName").value="";
-  document.getElementById("saleQty").value="";
-  document.getElementById("saleAmount").value="";
-  document.getElementById("customerMobile").value="";
-  document.getElementById("paymentType").value="paid";
-}
-
-function renderSales(){
-
-  const box=document.getElementById("saleList");
-
-  if(!db.sales.length){
-    box.innerHTML='<div class="empty">अभी कोई sale नहीं है</div>';
-    return;
-  }
-
-  box.innerHTML=db.sales.slice(0,30).map(s=>{
-
-    return `
-      <div class="item">
-
-        <b>${escapeHTML(s.name)}</b>
-
-        <p>
-          Qty: ${s.qty}
-          <br>
-          Amount: ${money(s.amount)}
-        </p>
-
-        <span class="${s.payment==="due"?"due":"paid"}">
-          ${s.payment==="due"?"उधारी":"Paid"}
-        </span>
-
-      </div>
-    `;
-
-  }).join("");
-}
-
-/* ---------------- KHATA ---------------- */
-
-function renderKhata(){
-
-  const box=document.getElementById("khataList");
-
-  if(!db.khataList.length){
-
-    box.innerHTML=
-      '<div class="empty">कोई उधारी नहीं है</div>';
-
-    return;
-  }
-
-  box.innerHTML=db.khataList.map(k=>{
-
-    const balance=Math.max(
-      0,
-      Number(k.amount)-Number(k.paid)
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(db)
     );
 
-    if(balance<=0) return "";
-
-    return `
-      <div class="item">
-
-        <b>${escapeHTML(k.mobile)}</b>
-
-        <p>
-          Total: ${money(k.amount)}
-          <br>
-          Paid: ${money(k.paid)}
-          <br>
-          Balance:
-          <strong class="due">${money(balance)}</strong>
-        </p>
-
-        <button
-          class="primary"
-          onclick="addPayment(${k.id})">
-          Add Payment
-        </button>
-
-      </div>
-    `;
-
-  }).join("") || '<div class="empty">कोई उधारी नहीं है</div>';
+    refreshAll();
 }
 
-function addPayment(id){
 
-  const item=db.khataList.find(x=>x.id===id);
+/* ---------------- NAVIGATION ---------------- */
 
-  if(!item) return;
+function showPage(id,button){
 
-  const balance=
-    Number(item.amount)-Number(item.paid);
-
-  const value=prompt(
-    "Payment amount डालें\nBalance: "+money(balance)
-  );
-
-  if(value===null) return;
-
-  const payment=Number(value);
-
-  if(!Number.isFinite(payment) || payment<=0){
-
-    toast("सही payment amount डालें");
-    return;
-
-  }
-
-  if(payment>balance){
-
-    toast("Payment balance से ज्यादा नहीं हो सकती");
-    return;
-
-  }
-
-  item.paid=Number(item.paid)+payment;
-
-  if(item.paid>=item.amount){
-
-    db.khataList=
-      db.khataList.filter(x=>x.id!==id);
-
-    toast("पूरी उधारी paid हो गई");
-
-  }else{
-
-    toast("Payment added");
-
-  }
-
-  saveDB();
-}
-
-/* ---------------- REPORT ---------------- */
-
-function renderReport(){
-
-  const totalSales=
-    db.sales.reduce(
-      (sum,x)=>sum+Number(x.amount||0),0
+    document
+    .querySelectorAll(".page")
+    .forEach(
+        p=>p.classList.remove("active")
     );
 
-  const totalPaid=
-    db.sales
-      .filter(x=>x.payment==="paid")
-      .reduce(
-        (sum,x)=>sum+Number(x.amount||0),0
-      );
+    document
+    .getElementById(id)
+    .classList.add("active");
 
-  const outstanding=
-    db.khataList.reduce(
-      (sum,x)=>
-        sum+
-        Math.max(
-          0,
-          Number(x.amount)-Number(x.paid)
-        ),
-      0
+    document
+    .querySelectorAll("nav button")
+    .forEach(
+        b=>b.classList.remove("active")
     );
 
-  document.getElementById("totalSales").textContent=
-    money(totalSales);
+    if(button){
 
-  document.getElementById("totalPaid").textContent=
-    money(totalPaid);
+        button.classList.add("active");
+    }
 
-  document.getElementById("totalOutstanding").textContent=
-    money(outstanding);
-
-  document.getElementById("totalTransactions").textContent=
-    db.sales.length;
-
-  document.getElementById("homeSales").textContent=
-    money(totalSales);
-
-  document.getElementById("homeDue").textContent=
-    money(outstanding);
+    refreshAll();
 }
 
-/* ---------------- SECURITY ---------------- */
+
+/* ---------------- HELPERS ---------------- */
+
+function money(n){
+
+    return "₹"+
+        Number(n||0)
+        .toLocaleString("en-IN");
+}
+
+
+function toast(message){
+
+    const t=
+        document.getElementById("toast");
+
+    t.textContent=message;
+
+    t.style.display="block";
+
+    setTimeout(
+        ()=>{
+            t.style.display="none";
+        },
+        2200
+    );
+}
+
 
 function escapeHTML(value){
 
-  return String(value ?? "")
+    return String(value??"")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
 }
+
+
+/* ---------------- STOCK ---------------- */
+
+function saveStock(){
+
+    const name=
+        document
+        .getElementById("stockName")
+        .value.trim();
+
+    const qty=
+        Number(
+            document
+            .getElementById("stockQty")
+            .value
+        );
+
+    const unit=
+        document
+        .getElementById("stockUnit")
+        .value;
+
+    const lowLevel=
+        Number(
+            document
+            .getElementById("lowLevel")
+            .value||0
+        );
+
+
+    if(!name){
+
+        toast("Item name डालें");
+
+        return;
+    }
+
+
+    if(!Number.isFinite(qty)||qty<0){
+
+        toast("सही quantity डालें");
+
+        return;
+    }
+
+
+    const existing=
+        db.stock.find(
+            x=>
+            x.name.toLowerCase()
+            ===
+            name.toLowerCase()
+        );
+
+
+    if(existing){
+
+        existing.qty=qty;
+        existing.unit=unit;
+        existing.lowLevel=lowLevel;
+
+    }else{
+
+        db.stock.push({
+
+            id:Date.now(),
+
+            name:name,
+
+            qty:qty,
+
+            unit:unit,
+
+            lowLevel:lowLevel
+        });
+    }
+
+
+    saveDB();
+
+    clearStockForm();
+
+    toast("Stock saved");
+}
+
+
+function clearStockForm(){
+
+    document
+    .getElementById("stockName")
+    .value="";
+
+    document
+    .getElementById("stockQty")
+    .value="";
+
+    document
+    .getElementById("lowLevel")
+    .value="";
+
+    document
+    .getElementById("stockUnit")
+    .value="pcs";
+}
+
+
+function deleteStock(id){
+
+    if(
+        !confirm(
+            "क्या आप यह stock item delete करना चाहते हैं?"
+        )
+    ){
+
+        return;
+    }
+
+
+    db.stock=
+        db.stock.filter(
+            x=>x.id!==id
+        );
+
+    saveDB();
+
+    toast("Stock deleted");
+}
+
+
+function renderStock(){
+
+    const box=
+        document.getElementById("stockList");
+
+
+    if(!db.stock.length){
+
+        box.innerHTML=
+            '<div class="empty">अभी कोई stock नहीं है</div>';
+
+        return;
+    }
+
+
+    box.innerHTML=
+        db.stock.map(item=>{
+
+            const isLow=
+                item.lowLevel>0 &&
+                Number(item.qty)
+                <=
+                Number(item.lowLevel);
+
+
+            return`
+
+            <div class="item ${isLow?"low":""}">
+
+                <b>
+                    ${escapeHTML(item.name)}
+                </b>
+
+                <p>
+                    Quantity:
+                    <strong>
+                        ${item.qty}
+                        ${escapeHTML(item.unit)}
+                    </strong>
+                </p>
+
+                ${
+                    isLow
+                    ?
+                    '<span class="badge danger">LOW STOCK</span>'
+                    :
+                    ''
+                }
+
+                <br><br>
+
+                <button
+                    class="secondary danger"
+                    onclick="deleteStock(${item.id})">
+                    Delete
+                </button>
+
+            </div>
+
+            `;
+
+        }).join("");
+}
+
+
+/* ---------------- SALE ---------------- */
+
+function saveSale(){
+
+    const name=
+        document
+        .getElementById("saleName")
+        .value.trim();
+
+
+    const qty=
+        Number(
+            document
+            .getElementById("saleQty")
+            .value
+        );
+
+
+    const amount=
+        Number(
+            document
+            .getElementById("saleAmount")
+            .value
+        );
+
+
+    const mobile=
+        document
+        .getElementById("customerMobile")
+        .value.trim();
+
+
+    const payment=
+        document
+        .getElementById("paymentType")
+        .value;
+
+
+    if(!name){
+
+        toast("Item name डालें");
+
+        return;
+    }
+
+
+    if(!Number.isFinite(qty)||qty<=0){
+
+        toast("सही quantity डालें");
+
+        return;
+    }
+
+
+    if(!Number.isFinite(amount)||amount<0){
+
+        toast("सही amount डालें");
+
+        return;
+    }
+
+
+    if(
+        mobile &&
+        !/^[0-9]{10}$/.test(mobile)
+    ){
+
+        toast("गलत mobile number");
+
+        return;
+    }
+
+
+    const stockItem=
+        db.stock.find(
+            x=>
+            x.name.toLowerCase()
+            ===
+            name.toLowerCase()
+        );
+
+
+    if(
+        stockItem &&
+        stockItem.qty<qty
+    ){
+
+        toast(
+            "इतना stock उपलब्ध नहीं है"
+        );
+
+        return;
+    }
+
+
+    if(stockItem){
+
+        stockItem.qty=
+            Number(stockItem.qty)-qty;
+    }
+
+
+    const sale={
+
+        id:Date.now(),
+
+        name:name,
+
+        qty:qty,
+
+        amount:amount,
+
+        mobile:mobile,
+
+        payment:payment,
+
+        date:new Date().toISOString()
+    };
+
+
+    db.sales.unshift(sale);
+
+
+    if(payment==="due"){
+
+        db.khataList.push({
+
+            id:Date.now()+1,
+
+            mobile:
+                mobile||"Customer",
+
+            amount:amount,
+
+            paid:0,
+
+            date:sale.date
+        });
+    }
+
+
+    saveDB();
+
+    clearSaleForm();
+
+    toast("Sale saved");
+}
+
+
+function clearSaleForm(){
+
+    document
+    .getElementById("saleName")
+    .value="";
+
+    document
+    .getElementById("saleQty")
+    .value="";
+
+    document
+    .getElementById("saleAmount")
+    .value="";
+
+    document
+    .getElementById("customerMobile")
+    .value="";
+
+    document
+    .getElementById("paymentType")
+    .value="paid";
+}
+
+
+function renderSales(){
+
+    const box=
+        document.getElementById("saleList");
+
+
+    if(!db.sales.length){
+
+        box.innerHTML=
+            '<div class="empty">अभी कोई sale नहीं है</div>';
+
+        return;
+    }
+
+
+    box.innerHTML=
+        db.sales
+        .slice(0,30)
+        .map(s=>{
+
+            return`
+
+            <div class="item">
+
+                <b>
+                    ${escapeHTML(s.name)}
+                </b>
+
+                <p>
+                    Qty: ${s.qty}
+                    <br>
+                    Amount: ${money(s.amount)}
+                </p>
+
+                <span
+                    class="${s.payment==="due"?"due":"paid"}">
+
+                    ${
+                        s.payment==="due"
+                        ?"उधारी"
+                        :"Paid"
+                    }
+
+                </span>
+
+            </div>
+
+            `;
+
+        }).join("");
+}
+
+
+/* ---------------- KHATA ---------------- */
+
+function renderKhata(){
+
+    const box=
+        document.getElementById("khataList");
+
+
+    if(!db.khataList.length){
+
+        box.innerHTML=
+            '<div class="empty">कोई उधारी नहीं है</div>';
+
+        return;
+    }
+
+
+    box.innerHTML=
+        db.khataList.map(k=>{
+
+            const balance=
+                Math.max(
+                    0,
+                    Number(k.amount)
+                    -
+                    Number(k.paid)
+                );
+
+
+            if(balance<=0){
+
+                return "";
+            }
+
+
+            return`
+
+            <div class="item">
+
+                <b>
+                    ${escapeHTML(k.mobile)}
+                </b>
+
+                <p>
+
+                    Total:
+                    ${money(k.amount)}
+
+                    <br>
+
+                    Paid:
+                    ${money(k.paid)}
+
+                    <br>
+
+                    Balance:
+                    <strong class="due">
+                        ${money(balance)}
+                    </strong>
+
+                </p>
+
+
+                <button
+                    class="primary"
+                    onclick="addPayment(${k.id})">
+
+                    Add Payment
+
+                </button>
+
+            </div>
+
+            `;
+
+        }).join("")
+        ||
+        '<div class="empty">कोई उधारी नहीं है</div>';
+}
+
+
+function addPayment(id){
+
+    const item=
+        db.khataList.find(
+            x=>x.id===id
+        );
+
+
+    if(!item){
+
+        return;
+    }
+
+
+    const balance=
+        Number(item.amount)
+        -
+        Number(item.paid);
+
+
+    const value=
+        prompt(
+            "Payment amount डालें\nBalance: "
+            +
+            money(balance)
+        );
+
+
+    if(value===null){
+
+        return;
+    }
+
+
+    const payment=
+        Number(value);
+
+
+    if(
+        !Number.isFinite(payment)
+        ||
+        payment<=0
+    ){
+
+        toast(
+            "सही payment amount डालें"
+        );
+
+        return;
+    }
+
+
+    if(payment>balance){
+
+        toast(
+            "Payment balance से ज्यादा नहीं हो सकती"
+        );
+
+        return;
+    }
+
+
+    item.paid=
+        Number(item.paid)+payment;
+
+
+    if(item.paid>=item.amount){
+
+        db.khataList=
+            db.khataList.filter(
+                x=>x.id!==id
+            );
+
+        toast(
+            "पूरी उधारी paid हो गई"
+        );
+
+    }else{
+
+        toast("Payment added");
+    }
+
+
+    saveDB();
+}
+
+
+/* ---------------- REPORT ---------------- */
+
+function renderReport(){
+
+    const totalSales=
+        db.sales.reduce(
+            (sum,x)=>
+                sum+
+                Number(x.amount||0),
+            0
+        );
+
+
+    const totalPaid=
+        db.sales
+        .filter(
+            x=>x.payment==="paid"
+        )
+        .reduce(
+            (sum,x)=>
+                sum+
+                Number(x.amount||0),
+            0
+        );
+
+
+    const outstanding=
+        db.khataList.reduce(
+            (sum,x)=>
+                sum+
+                Math.max(
+                    0,
+                    Number(x.amount)
+                    -
+                    Number(x.paid)
+                ),
+            0
+        );
+
+
+    document
+    .getElementById("totalSales")
+    .textContent=
+        money(totalSales);
+
+
+    document
+    .getElementById("totalPaid")
+    .textContent=
+        money(totalPaid);
+
+
+    document
+    .getElementById("totalOutstanding")
+    .textContent=
+        money(outstanding);
+
+
+    document
+    .getElementById("totalTransactions")
+    .textContent=
+        db.sales.length;
+
+
+    document
+    .getElementById("homeSales")
+    .textContent=
+        money(totalSales);
+
+
+    document
+    .getElementById("homeDue")
+    .textContent=
+        money(outstanding);
+}
+
 
 /* ---------------- REFRESH ---------------- */
 
 function refreshAll(){
 
-  renderStock();
-  renderSales();
-  renderKhata();
-  renderReport();
+    renderStock();
 
+    renderSales();
+
+    renderKhata();
+
+    renderReport();
 }
+
 
 refreshAll();
 
