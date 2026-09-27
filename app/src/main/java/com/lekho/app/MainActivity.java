@@ -2,20 +2,26 @@ package com.lekho.app;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.webkit.PermissionRequest;
+import android.speech.RecognizerIntent;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class MainActivity extends Activity {
 
-    private WebView webView;
+    private static final int RECORD_AUDIO_REQUEST = 1001;
+    private static final int SPEECH_REQUEST = 1002;
 
-    private static final int AUDIO_PERMISSION_CODE = 44;
+    private WebView webView;
+    private String activeInputId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +30,6 @@ public class MainActivity extends Activity {
         webView = new WebView(this);
 
         WebSettings settings = webView.getSettings();
-
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setAllowFileAccess(true);
@@ -32,63 +37,143 @@ public class MainActivity extends Activity {
         settings.setMediaPlaybackRequiresUserGesture(false);
 
         webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient());
 
-        webView.setWebChromeClient(new WebChromeClient() {
-
-            @Override
-            public void onPermissionRequest(
-                    final PermissionRequest request) {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                            if (checkSelfPermission(
-                                    Manifest.permission.RECORD_AUDIO)
-                                    != PackageManager.PERMISSION_GRANTED) {
-
-                                requestPermissions(
-                                        new String[]{
-                                                Manifest.permission.RECORD_AUDIO
-                                        },
-                                        AUDIO_PERMISSION_CODE
-                                );
-
-                                return;
-                            }
-                        }
-
-                        request.grant(request.getResources());
-                    }
-                });
-            }
-        });
+        webView.addJavascriptInterface(new MicBridge(), "LekhoMic");
 
         setContentView(webView);
-
         webView.loadUrl("file:///android_asset/index.html");
 
-        requestAudioPermission();
+        if (android.os.Build.VERSION.SDK_INT >= 23 &&
+                checkSelfPermission(Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    RECORD_AUDIO_REQUEST
+            );
+        }
     }
 
-    private void requestAudioPermission() {
+    public class MicBridge {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        @JavascriptInterface
+        public void startListening(String inputId) {
 
-            if (checkSelfPermission(
-                    Manifest.permission.RECORD_AUDIO)
-                    != PackageManager.PERMISSION_GRANTED) {
+            activeInputId = inputId;
+
+            if (android.os.Build.VERSION.SDK_INT >= 23 &&
+                    checkSelfPermission(Manifest.permission.RECORD_AUDIO)
+                            != PackageManager.PERMISSION_GRANTED) {
 
                 requestPermissions(
-                        new String[]{
-                                Manifest.permission.RECORD_AUDIO
-                        },
-                        AUDIO_PERMISSION_CODE
+                        new String[]{Manifest.permission.RECORD_AUDIO},
+                        RECORD_AUDIO_REQUEST
                 );
+
+                return;
             }
+
+            startSpeechRecognition();
         }
+    }
+
+    private void startSpeechRecognition() {
+
+        try {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+            intent.putExtra(
+                    RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            );
+
+            intent.putExtra(
+                    RecognizerIntent.EXTRA_LANGUAGE,
+                    Locale.getDefault()
+            );
+
+            intent.putExtra(
+                    RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
+                    Locale.getDefault()
+            );
+
+            intent.putExtra(
+                    RecognizerIntent.EXTRA_PROMPT,
+                    "बोलिए..."
+            );
+
+            intent.putExtra(
+                    RecognizerIntent.EXTRA_MAX_RESULTS,
+                    1
+            );
+
+            startActivityForResult(intent, SPEECH_REQUEST);
+
+        } catch (Exception e) {
+            sendMicMessage("Mic उपलब्ध नहीं है");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(
+            int requestCode,
+            int resultCode,
+            Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode != SPEECH_REQUEST) {
+            return;
+        }
+
+        if (resultCode == RESULT_OK && data != null) {
+
+            ArrayList<String> results =
+                    data.getStringArrayListExtra(
+                            RecognizerIntent.EXTRA_RESULTS
+                    );
+
+            if (results != null && !results.isEmpty()) {
+
+                String text = results.get(0);
+
+                String safeText = text
+                        .replace("\\", "\\\\")
+                        .replace("'", "\\'")
+                        .replace("\n", " ")
+                        .replace("\r", " ");
+
+                String javascript =
+                        "setMicText('" +
+                        activeInputId +
+                        "','" +
+                        safeText +
+                        "')";
+
+                webView.evaluateJavascript(javascript, null);
+
+            } else {
+                sendMicMessage("आवाज़ समझ नहीं आई");
+            }
+
+        } else {
+            sendMicMessage("Mic बंद किया गया");
+        }
+    }
+
+    private void sendMicMessage(String message) {
+
+        String safeMessage = message
+                .replace("\\", "\\\\")
+                .replace("'", "\\'")
+                .replace("\n", " ")
+                .replace("\r", " ");
+
+        String javascript =
+                "micError('" + safeMessage + "')";
+
+        webView.evaluateJavascript(javascript, null);
     }
 
     @Override
@@ -103,13 +188,19 @@ public class MainActivity extends Activity {
                 grantResults
         );
 
-        if (requestCode == AUDIO_PERMISSION_CODE) {
+        if (requestCode == RECORD_AUDIO_REQUEST) {
 
             if (grantResults.length > 0 &&
-                    grantResults[0] ==
-                            PackageManager.PERMISSION_GRANTED) {
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                // Microphone permission granted.
+                if (!activeInputId.isEmpty()) {
+                    startSpeechRecognition();
+                }
+
+            } else {
+                sendMicMessage(
+                        "Mic permission allow करें"
+                );
             }
         }
     }
@@ -117,12 +208,9 @@ public class MainActivity extends Activity {
     @Override
     public void onBackPressed() {
 
-        if (webView != null && webView.canGoBack()) {
-
+        if (webView.canGoBack()) {
             webView.goBack();
-
         } else {
-
             super.onBackPressed();
         }
     }
