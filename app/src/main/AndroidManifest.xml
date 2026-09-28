@@ -13,4 +13,6 @@
             </intent-filter>
         </activity>
     </application>
+    android:icon="@drawable/lekho_icon"
+android:roundIcon="@drawable/lekho_icon"
 </manifest>
