@@ -1794,7 +1794,7 @@ function khata(){
         Math.max(
           0,
           Number(
-            $('[data-paid="'+x.id+'"]').value
+            document.querySelector('[data-paid="'+x.id+'"]').value
           )||0
         )
       );
