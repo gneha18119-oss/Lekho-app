@@ -1803,7 +1803,7 @@ function khata(){
       x.due=Number(x.total)-p;
 
       x.promise=
-        $('[data-promise="'+x.id+'"]').value;
+       document.querySelector('[data-promise="'+x.id+'"]').value 
     }
 
     if(x.due<=0){
