@@ -1,169 +1,2556 @@
-<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>लेखो ऐप — स्मार्ट दुकान प्रबंधन</title><style>
-*{box-sizing:border-box}html,body{min-height:100%;height:100%}body{margin:0;min-height:100vh;overflow-x:hidden;overflow-y:auto;font-family:system-ui,Arial,sans-serif;background:#f5f7fb;color:#172033}.wrap{max-width:720px;margin:auto;padding:12px 12px 105px;min-height:100vh}.authWrap{max-width:460px;margin:auto}.appMain{padding-bottom:20px}.card{background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.85);border-radius:20px;padding:16px;margin:10px 0;box-shadow:0 10px 30px rgba(30,41,59,.07);backdrop-filter:blur(8px)}h1,h2,h3{margin:0 0 10px}.muted{color:#667085;font-size:13px}.hidden{display:none!important}.msg{display:none;margin:8px 0;padding:11px;border-radius:12px;font-weight:700}.msg.show{display:block}.ok{background:#dcfce7;color:#166534}.err{background:#fee2e2;color:#991b1b}.warn{background:#fef3c7;color:#92400e}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat{background:#f1f5f9;padding:13px;border-radius:13px;text-align:center}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:120px}label{display:block;font-weight:700;margin:9px 0}input,select,button,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:11px;font-size:15px}label input,label select,label textarea{margin-top:5px;font-weight:400}button{background:#111827;color:#fff;border:0;font-weight:700;cursor:pointer}.secondary{background:#e2e8f0;color:#172033}.danger{background:#fee2e2;color:#991b1b}.success{background:#dcfce7;color:#166534}.item{border:1px solid #e5e7eb;border-radius:14px;padding:12px;margin:9px 0}.low{border-color:#ef4444;background:#fff8f8}.pill{float:right;background:#e2e8f0;padding:4px 8px;border-radius:20px;font-size:12px}.red{color:#dc2626;font-weight:800}.green{color:#16a34a;font-weight:800}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(720px,100%);background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(6,1fr);padding:7px 4px;z-index:10}.nav button{background:#fff;color:#64748b;font-size:11px;padding:8px 2px}.nav button.active{background:#111827;color:#fff}.empty{text-align:center;padding:24px;color:#64748b}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{padding:9px;border-bottom:1px solid #e5e7eb;text-align:left;white-space:nowrap}.modal{position:fixed;inset:0;background:#0008;z-index:30;display:flex;align-items:flex-start;justify-content:center;padding:12px}.modalbox{width:min(650px,100%);max-height:95vh;overflow:auto;background:#fff;border-radius:18px;padding:16px}.authLogo{text-align:center;font-size:42px;margin-bottom:4px}.authBrand{text-align:center;font-weight:800;font-size:28px}.authSub{text-align:center;line-height:1.5}.authTabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#eef2f7;padding:5px;border-radius:13px}.authTabs button{background:transparent;color:#475569}.authTabs button.active{background:#111827;color:#fff}.fieldHint{font-size:12px;color:#64748b;margin-top:4px}.priceBox{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;margin:10px 0}.totalBox{font-size:20px;font-weight:800;background:#ecfdf5;border-radius:14px;padding:14px}.appMain{min-height:calc(100vh - 90px);overflow:visible;padding-bottom:150px}.wrap{overflow:visible}.small{font-size:12px}.check{display:flex;align-items:center;gap:8px}.check input{width:auto}.topbar{display:flex;justify-content:space-between;gap:8px;align-items:center}.topbar button{width:auto;padding:8px 10px}.tag{display:inline-block;padding:3px 7px;border-radius:20px;background:#eef2ff;font-size:12px}.sectionTitle{display:flex;justify-content:space-between;align-items:center;gap:8px}.sectionTitle button{width:auto}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:480px){.grid,.two{grid-template-columns:1fr}.row>*{min-width:100%}.wrap{padding:8px 8px 145px}.modal{padding:8px}.modalbox{max-height:calc(100vh - 16px)}}
-
-.authWrap .card{border:1px solid #e8edf5;box-shadow:0 12px 35px rgba(15,23,42,.08)}
-.authWrap .card:first-child{background:linear-gradient(145deg,#ffffff,#f8fbff)}
-.authLogo{width:72px;height:72px;display:grid;place-items:center;margin:0 auto 8px;border-radius:22px;background:linear-gradient(135deg,#111827,#334155);font-size:34px;box-shadow:0 10px 24px rgba(17,24,39,.18)}
-.authBrand{letter-spacing:.2px}.authSub{max-width:330px;margin:4px auto 16px}.authTabs{box-shadow:inset 0 0 0 1px #e2e8f0}.authTabs button{padding:11px;border-radius:10px}.authWrap input,.authWrap select{background:#fbfdff}.authWrap label{font-size:14px}.requiredStar{color:#dc2626;font-weight:900}.authWrap button{min-height:46px}.authWrap .secondary{background:#f1f5f9}
-</style>
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>लेखो ऐप</title>
 
 <style>
-body{background:linear-gradient(145deg,#f7fbff 0%,#eef5ff 42%,#f7f3ff 72%,#fff8fb 100%);background-attachment:fixed;position:relative}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background:radial-gradient(circle at 15% 12%,rgba(99,102,241,.18),transparent 28%),radial-gradient(circle at 88% 18%,rgba(236,72,153,.12),transparent 25%),radial-gradient(circle at 50% 100%,rgba(14,165,233,.10),transparent 35%);z-index:-1}
-body:after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.08;background-image:linear-gradient(rgba(100,116,139,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(100,116,139,.18) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(to bottom,black 0%,transparent 80%);z-index:-1}
-.authWrap{padding:18px 0 30px}.authWrap .card{backdrop-filter:blur(10px);background:rgba(255,255,255,.92);border-radius:24px}.authHero{padding:28px 20px 22px!important;text-align:center;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(239,246,255,.94))!important}.authLogo{background:linear-gradient(135deg,#4f46e5,#7c3aed,#ec4899);box-shadow:0 14px 35px rgba(79,70,229,.28)}.authBrand{font-size:31px}.authTabs{margin-top:16px}.authTabs button{font-size:14px}.authAction{background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 8px 18px rgba(79,70,229,.2)}.authLinks{display:flex;justify-content:center;gap:18px;margin-top:14px;flex-wrap:wrap}.authLinks button{width:auto;min-height:auto;padding:4px 2px;background:none;color:#4f46e5}.authLinks button:hover{text-decoration:underline}.forgotCard{display:none}.pageNav{display:none}.pageNav button{min-height:44px}.modalHeader{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;position:sticky;top:-16px;background:#fff;padding:2px 0 12px;z-index:2}.modalHeader button{width:auto;min-width:100px}.modalActions{position:sticky;bottom:-16px;background:#fff;padding:12px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}.modalActions button{min-height:48px}
+*{box-sizing:border-box}
 
-/* Stock buttons: normal flow, never stuck underneath the page */
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  background:#f5f7fb;
+  color:#172033
+}
+
+body{overflow-x:hidden}
+
+.wrap{
+  max-width:720px;
+  margin:auto;
+  padding:10px 10px 90px
+}
+
+.hidden{display:none!important}
+
+.card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+  padding:16px;
+  margin:10px 0;
+  box-shadow:0 8px 24px rgba(15,23,42,.07)
+}
+
+h1,h2,h3{margin:0 0 10px}
+
+.muted{
+  color:#64748b;
+  font-size:13px
+}
+
+.msg{
+  display:none;
+  padding:11px;
+  border-radius:12px;
+  font-weight:700;
+  margin:8px 0
+}
+
+.msg.show{display:block}
+
+.ok{
+  background:#dcfce7;
+  color:#166534
+}
+
+.err{
+  background:#fee2e2;
+  color:#991b1b
+}
+
+.warn{
+  background:#fef3c7;
+  color:#92400e
+}
+
+label{
+  display:block;
+  font-weight:700;
+  font-size:14px;
+  margin:10px 0
+}
+
+input,select,textarea,button{
+  width:100%;
+  min-height:46px;
+  padding:11px;
+  border:1px solid #cbd5e1;
+  border-radius:11px;
+  font:inherit
+}
+
+label input,
+label select,
+label textarea{
+  margin-top:5px;
+  font-weight:400;
+  background:#fff
+}
+
+button{
+  border:0;
+  background:#0f766e;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+  touch-action:manipulation
+}
+
+.secondary{
+  background:#e2e8f0;
+  color:#172033
+}
+
+.danger{
+  background:#fee2e2;
+  color:#991b1b
+}
+
+.success{
+  background:#dcfce7;
+  color:#166534
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap
+}
+
+.row>*{
+  flex:1;
+  min-width:0
+}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px
+}
+
+.stat{
+  background:#f1f5f9;
+  border-radius:13px;
+  padding:13px;
+  text-align:center
+}
+
+.red{
+  color:#dc2626;
+  font-weight:800
+}
+
+.green{
+  color:#16a34a;
+  font-weight:800
+}
+
+.item{
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:12px;
+  margin:9px 0
+}
+
+.item.low{
+  border-color:#ef4444;
+  background:#fff8f8
+}
+
+.pill{
+  float:right;
+  background:#e2e8f0;
+  border-radius:20px;
+  padding:4px 8px;
+  font-size:12px
+}
+
+.tag{
+  display:inline-block;
+  background:#eef2ff;
+  border-radius:20px;
+  padding:3px 7px;
+  font-size:12px
+}
+
+.empty{
+  text-align:center;
+  padding:25px;
+  color:#64748b
+}
+
+.sectionTitle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px
+}
+
+.sectionTitle button{
+  width:auto
+}
+
+.nav{
+  position:fixed;
+  z-index:20;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(720px,100%);
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:3px;
+  padding:7px 4px calc(7px + env(safe-area-inset-bottom));
+  background:#fff;
+  border-top:1px solid #ddd
+}
+
+.nav button{
+  min-height:48px;
+  padding:5px 2px;
+  background:#fff;
+  color:#64748b;
+  font-size:11px
+}
+
+.nav button.active{
+  background:#0f766e;
+  color:#fff
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px
+}
+
+.topbar button{
+  width:auto
+}
+
+.authHero{
+  text-align:center;
+  padding:24px
+}
+
+.authLogo{
+  width:70px;
+  height:70px;
+  margin:auto auto 8px;
+  border-radius:20px;
+  display:grid;
+  place-items:center;
+  background:#0f766e;
+  color:#fff;
+  font-size:32px
+}
+
+.authBrand{
+  font-size:30px;
+  font-weight:900
+}
+
+.authAction{
+  background:#0f766e
+}
+
+.authLinks{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  margin-top:12px
+}
+
+.authLinks button{
+  width:auto;
+  min-height:auto;
+  background:none;
+  color:#0f766e;
+  padding:4px
+}
+
+.requiredStar{
+  color:#dc2626
+}
+
+.check{
+  display:flex;
+  align-items:center;
+  gap:8px
+}
+
+.check input{
+  width:auto;
+  min-height:auto
+}
+
+.alert{
+  background:#fff4d6;
+  border:1px solid #f1d28a;
+  padding:10px;
+  border-radius:12px;
+  margin:8px 0
+}
+
 .stockItemActions{
-display:flex;
-gap:8px;
-margin-top:12px;
-margin-bottom:8px;
-position:relative;
-bottom:auto;
-left:auto;
-right:auto;
-top:auto;
-z-index:2;
-width:100%;
-box-sizing:border-box;
-background:transparent;
-padding:0;
-border:0;
-border-radius:0;
-box-shadow:none;
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+  position:relative;
+  z-index:2;
+  width:100%;
+  pointer-events:auto
 }
 
 .stockItemActions button{
-flex:1;
-min-height:48px;
-touch-action:manipulation;
-position:relative;
-z-index:3;
+  flex:1;
+  min-height:50px
 }
 
-#stockList{padding-bottom:24px}
-.appMain{min-height:calc(100vh - 90px);overflow:visible;padding-bottom:170px}
-.wrap{overflow:visible;padding-bottom:170px}
+.formActions{
+  display:flex;
+  gap:8px;
+  position:sticky;
+  bottom:0;
+  background:#fff;
+  padding-top:10px;
+  z-index:5
+}
+
+.formActions>*{
+  flex:1
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.58);
+  z-index:50;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:10px;
+  overflow:auto
+}
+
+.modalBox{
+  width:min(650px,100%);
+  background:#fff;
+  border-radius:18px;
+  padding:16px;
+  min-height:100%;
+  box-shadow:0 20px 60px rgba(15,23,42,.25)
+}
+
+.tablewrap{
+  overflow:auto
+}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px
+}
+
+.table th,
+.table td{
+  padding:8px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+  white-space:nowrap
+}
+
+.mini{
+  min-height:36px;
+  padding:6px 8px;
+  font-size:12px
+}
+
+.invoice{
+  border:1px dashed #999;
+  border-radius:12px;
+  padding:18px
+}
+
+.voiceWrap{
+  display:flex;
+  gap:7px
+}
+
+.voiceWrap input{
+  flex:1
+}
+
+.micBtn{
+  width:58px;
+  flex:0 0 58px;
+  background:#eef2ff;
+  color:#4338ca;
+  font-size:20px
+}
+
+.micStatus{
+  position:fixed;
+  z-index:100;
+  left:50%;
+  bottom:85px;
+  transform:translateX(-50%);
+  background:#111827;
+  color:#fff;
+  padding:10px 15px;
+  border-radius:999px;
+  display:none
+}
+
+.micStatus.show{
+  display:block
+}
 
 @media(max-width:480px){
-.wrap{padding:8px 8px 170px}
-.stockItemActions button{min-height:50px}
+  .two,
+  .grid{
+    grid-template-columns:1fr
+  }
+
+  .wrap{
+    padding:8px 8px 100px
+  }
+
+  .row{
+    flex-direction:column
+  }
+
+  .row>*{
+    width:100%
+  }
+
+  .stockItemActions{
+    flex-direction:row
+  }
+
+  .stockItemActions button{
+    width:50%
+  }
 }
-
-.productModal{padding:0;overflow:auto;align-items:flex-start}.productModal .modalbox{width:min(650px,100%);min-height:100vh;max-height:none;border-radius:0;padding:16px 16px 92px;overflow:visible}.productModal .modalHeader{position:static;padding:0 0 12px}.productModal .modalHeader button{display:none}.productModal .modalActions{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(650px,100%);padding:10px 16px;background:#fff;border-top:1px solid #e2e8f0;box-shadow:0 -6px 18px rgba(15,23,42,.10);z-index:50}.productModal .modalActions button{min-height:48px}.productModal .cancelBtn{background:#e2e8f0!important;color:#172033!important}
 </style>
+</head>
 
-<style>
-html{scroll-behavior:smooth}
-#content{scroll-margin-top:12px}
-#stockList{padding-bottom:20px}
-</style>
+<body>
 
-<style>
-.productModal{padding:0;overflow:auto;align-items:flex-start}.productBox{width:min(680px,100%);min-height:100vh;max-height:none;border-radius:0;padding:16px 14px 96px;overflow:visible}.productHeader{position:sticky;top:0;z-index:2;background:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:4px 0 12px;margin-bottom:4px}.productHeader button{width:auto;flex:0 0 auto}.formActions{position:sticky;bottom:0;z-index:3;background:#fff;padding:10px 0 4px;margin-top:14px;display:flex;flex-direction:row;flex-wrap:nowrap}.formActions>*{min-width:0!important;flex:1!important}.formActions .cancelBtn{order:0}.formActions button[type=submit]{order:1}.productBox .two{grid-template-columns:1fr 1fr}@media(max-width:480px){.productBox .two{grid-template-columns:1fr}.formActions{gap:8px}.formActions>*{width:50%!important}.productBox{padding-bottom:92px}}.alert{background:#fff4d6;border:1px solid #f1d28a;padding:10px;border-radius:12px;margin:8px 0}.miniBtn{padding:6px 8px;font-size:12px}.invoice{background:#fff;border:1px dashed #aaa;border-radius:12px;padding:18px;text-align:left}.hidden{display:none!important}.smartCard{background:linear-gradient(135deg,#eef2ff,#fff7fb);border:1px solid #c7d2fe}.priority{border-left:5px solid #dc2626}.smartList{padding-left:18px;margin:8px 0}.smartList li{margin:8px 0}.assistantBox{background:#111827;color:#fff;border-radius:16px;padding:14px}.assistantBox input{margin-top:8px;background:#fff;color:#172033}.assistantAnswer{margin-top:10px;padding:10px;border-radius:12px;background:#f8fafc;color:#172033;display:none}.duplicate{background:#fff1f2;border-color:#fecdd3}
-</style>
+<div class="wrap">
 
-<style>
-/* Premium visual polish */
-body{background:radial-gradient(circle at 12% 8%,rgba(99,102,241,.18),transparent 28%),radial-gradient(circle at 88% 12%,rgba(236,72,153,.14),transparent 25%),radial-gradient(circle at 55% 92%,rgba(14,165,233,.12),transparent 30%),linear-gradient(135deg,#f8fbff 0%,#eef2ff 48%,#fff7fb 100%)}
-.card{border:1px solid rgba(255,255,255,.8);box-shadow:0 8px 28px rgba(30,41,59,.08),0 1px 2px rgba(30,41,59,.04)}
-.modal{background:rgba(15,23,42,.58);backdrop-filter:blur(5px)}
-.deleteConfirm{align-items:center!important;padding:18px!important}
-.deleteConfirm .confirmBox{width:min(410px,100%);background:linear-gradient(180deg,#ffffff 0%,#fffafb 100%);border-radius:28px;padding:26px 20px 20px;box-shadow:0 28px 90px rgba(15,23,42,.32);border:1px solid rgba(251,113,133,.28);text-align:center;animation:popIn .2s cubic-bezier(.2,.8,.2,1)}
-.warningIcon{width:76px;height:76px;margin:0 auto 13px;border-radius:24px;display:grid;place-items:center;font-size:37px;background:linear-gradient(145deg,#fff7ed,#ffedd5);border:1px solid #fed7aa;box-shadow:0 12px 30px rgba(234,88,12,.16);transform:rotate(-2deg)}
-.confirmBox h3{font-size:21px;margin-bottom:7px;color:#1f2937}
-.confirmBox .confirmText{color:#64748b;font-size:14px;line-height:1.55;margin:0 0 16px}
-.confirmProduct{background:linear-gradient(135deg,#fff1f2,#fff7ed);border:1px solid #fecdd3;border-radius:15px;padding:11px 12px;margin-bottom:18px;font-weight:800;color:#9f1239;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
-.confirmActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.confirmActions button{min-height:48px;border-radius:13px}
-.confirmDelete{background:linear-gradient(135deg,#ef4444,#dc2626)!important;color:#fff!important;box-shadow:0 8px 18px rgba(220,38,38,.20)}
-@keyframes popIn{from{transform:translateY(8px) scale(.97);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-</style>
-
-<style>
-/* Reports → Edit Sale: dedicated premium sheet */
-#editSaleModal{background:linear-gradient(145deg,rgba(15,23,42,.68),rgba(79,70,229,.34));backdrop-filter:blur(10px);padding:0}
-#editSaleModal .productBox{background:linear-gradient(160deg,#f8fbff 0%,#f3f0ff 48%,#fff7fb 100%);position:relative;overflow:hidden;padding:0 16px 100px}
-#editSaleModal .productBox:before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(99,102,241,.10);top:-90px;right:-70px;pointer-events:none}
-#editSaleModal .productBox:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(236,72,153,.07);bottom:80px;left:-90px;pointer-events:none}
-#editSaleModal .productHeader,#editSaleModal form{position:relative;z-index:1}
-#editSaleModal .productHeader{background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(148,163,184,.18);margin:0 -16px 12px;padding:18px 16px 14px;box-shadow:0 6px 20px rgba(15,23,42,.06)}
-#editSaleModal .productHeader h3{color:#1e1b4b;font-size:21px}
-#editSaleModal label{color:#334155}
-#editSaleModal input,#editSaleModal select{background:rgba(255,255,255,.90);border:1px solid #d8def0;box-shadow:0 3px 10px rgba(30,41,59,.04)}
-#editSaleModal .formActions{background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid #e2e8f0;padding:10px 0 6px}
-</style>
-
-<style>
-.voiceWrap{display:flex;gap:7px;align-items:stretch}.voiceWrap input,.voiceWrap select{flex:1;min-width:0}.micBtn{width:58px!important;min-width:58px!important;flex:0 0 58px!important;padding:0!important;border-radius:12px!important;border:1px solid #c7d2fe!important;background:linear-gradient(135deg,#eef2ff,#fce7f3)!important;color:#4338ca!important;font-size:20px!important;box-shadow:0 4px 12px rgba(79,70,229,.12)!important}.micBtn.listening{background:linear-gradient(135deg,#fee2e2,#fce7f3)!important;color:#dc2626!important;animation:micPulse 1s infinite}.voiceHint{font-size:11px;color:#64748b;margin-top:4px}.micStatus{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);z-index:9999;background:rgba(15,23,42,.94);color:#fff;padding:10px 15px;border-radius:999px;font-size:13px;box-shadow:0 8px 30px rgba(15,23,42,.25);display:none;white-space:nowrap}.micStatus.show{display:block}.micStatus b{color:#fda4af}@keyframes micPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.micBtn span{line-height:9px}.voiceWrap .micBtn{display:flex;flex-direction:column;justify-content:center;align-items:center}.voiceWrap{min-width:0}.voiceHint{font-weight:600}.micBtn:active{transform:scale(.96)}
-.voiceAll{display:flex;align-items:center;gap:10px;padding:12px 14px;margin:8px 0 14px;border:1px solid #c7d2fe;border-radius:16px;background:linear-gradient(135deg,#eef2ff,#fdf2f8);box-shadow:0 5px 18px rgba(79,70,229,.10)}.voiceAllBtn{width:64px!important;height:58px!important;flex:0 0 64px!important;border-radius:16px!important;font-size:25px!important}.voiceAllText{font-size:12px;color:#334155;line-height:1.45}.voiceAllText b{display:block;font-size:14px;color:#312e81}.voiceAllBtn.listening{animation:micPulse 1s infinite;background:linear-gradient(135deg,#fee2e2,#fecdd3)!important;color:#dc2626!important}
-</style></head><body><div class="wrap"><div id="systemMsg" class="msg"></div>
+<div id="systemMsg" class="msg"></div>
 
 <section id="auth" class="authWrap">
-<div class="card authHero" style="margin-top:28px">
-<div class="authLogo">🛍️</div><div class="authBrand">लेखो ऐप</div><p class="muted authSub">आपकी दुकान का <b>Stock, Sale और Khata</b> — एक ही जगह</p>
+
+<div class="card authHero">
+  <div class="authLogo">₹</div>
+  <div class="authBrand">लेखो ऐप</div>
+  <p class="muted">
+    आपकी दुकान का <b>Stock, Sale और Khata</b> — एक ही जगह
+  </p>
 </div>
 
 <div id="loginCard" class="card">
-<h2>Sign In 👋</h2><p class="muted">पहले User ID और Password डालें।</p>
-<div id="loginForm">
-<label>User ID <span class="requiredStar">*</span><input id="loginUser" autocomplete="username" autocapitalize="none" placeholder="अपनी User ID डालें" required></label>
-<label>Password <span class="requiredStar">*</span><input id="loginPass" type="password" autocomplete="current-password" placeholder="Password डालें" required></label>
-<label class="check"><input id="showLoginPass" type="checkbox"> Password दिखाएँ</label>
-<button id="loginBtn" class="authAction" type="button">Sign In</button>
-</div>
-<div class="authLinks"><button id="showSignup" type="button">Sign Up</button><button id="showForgot" type="button">Forgot Password?</button></div>
+
+<h2>Sign In 👋</h2>
+
+<label>
+User ID <span class="requiredStar">*</span>
+<input id="loginUser" autocomplete="username" required>
+</label>
+
+<label>
+Password <span class="requiredStar">*</span>
+<input id="loginPass" type="password" autocomplete="current-password" required>
+</label>
+
+<label class="check">
+<input id="showLoginPass" type="checkbox">
+Password दिखाएँ
+</label>
+
+<button id="loginBtn" class="authAction" type="button">
+Sign In
+</button>
+
+<div class="authLinks">
+<button id="showSignup" type="button">Sign Up</button>
+<button id="showForgot" type="button">Forgot Password?</button>
 </div>
 
-<div id="forgotCard" class="card forgotCard">
-<h2>Forgot Password 🔐</h2><p class="muted">User ID और वही मोबाइल नंबर डालकर नया password बनाएं।</p>
-<label>User ID<input id="fpUser" placeholder="User ID"></label>
-<label>Mobile Number<input id="fpPhone" inputmode="numeric" maxlength="10" placeholder="10 digit mobile"></label>
-<label>New Password<input id="fpPass" type="password" minlength="6" placeholder="नया Password"></label>
-<label>Confirm Password<input id="fpConfirm" type="password" minlength="6" placeholder="Password फिर डालें"></label>
-<button id="forgotBtn" class="authAction" type="button">Password बदलें</button>
-<div class="authLinks"><button id="backLogin" type="button">← Sign In पर वापस</button></div>
-</div>
-
-<div id="signupCard" class="card hidden">
-<h2>Create Account ✨</h2><p class="muted">पहले अपनी User ID बनाएं, फिर उसी से Login करें।</p>
-<div id="signupForm">
-<label>User ID<input id="suUser" autocomplete="username" autocapitalize="none" placeholder="जैसे: neha123" minlength="4" maxlength="30" required><div class="fieldHint">4–30 अक्षर/अंक, बिना space के</div></label>
-<label>आपका नाम<input id="suName" autocomplete="name" required></label>
-<label>दुकान का नाम<input id="suShop" required></label>
-<label>मोबाइल नंबर<input id="suPhone" inputmode="numeric" maxlength="10" required></label>
-<label>व्यवसाय<select id="suProf" required><option value="">व्यवसाय चुनें</option><option>किराना</option><option>कपड़े</option><option>जूते</option><option>कॉस्मेटिक्स</option><option>मोबाइल</option><option>अन्य</option></select></label>
-<label>Password<input id="suPass" type="password" minlength="6" autocomplete="new-password" required></label>
-<label>Confirm Password<input id="suConfirm" type="password" minlength="6" autocomplete="new-password" required></label>
-<button id="signupBtn" type="button" class="authAction">Sign Up / Account बनाएं</button>
-</div>
-<div class="authLinks"><button type="button" onclick="authMode('login')">← Sign In पर वापस</button></div>
-</div>
-</div>
-
-<div id="forgotCard" class="card forgotCard">
-<h2>Forgot Password 🔐</h2><p class="muted">User ID और वही मोबाइल नंबर डालकर नया password बनाएं।</p>
-<label>User ID<input id="fpUser" placeholder="User ID"></label>
-<label>Mobile Number<input id="fpPhone" inputmode="numeric" maxlength="10" placeholder="10 digit mobile"></label>
-<label>New Password<input id="fpPass" type="password" minlength="6" placeholder="नया Password"></label>
-<label>Confirm Password<input id="fpConfirm" type="password" minlength="6" placeholder="Password फिर डालें"></label>
-<button id="forgotBtn" class="authAction" type="button">Password बदलें</button>
-<div class="authLinks"><button id="backLogin" type="button">← Sign In पर वापस</button></div>
 </div>
 
 <div id="signupCard" class="card hidden">
-<h2>Create Account ✨</h2><p class="muted">पहले अपनी User ID बनाएं, फिर उसी से Login करें।</p>
-<div id="signupForm">
-<label>User ID<input id="suUser" autocomplete="username" autocapitalize="none" placeholder="जैसे: neha123" minlength="4" maxlength="30" required><div class="fieldHint">4–30 अक्षर/अंक, बिना space के</div></label>
-<label>आपका नाम<input id="suName" autocomplete="name" required></label>
-<label>दुकान का नाम<input id="suShop" required></label>
-<label>मोबाइल नंबर<input id="suPhone" inputmode="numeric" maxlength="10" required></label>
-<label>व्यवसाय<select id="suProf" required><option value="">व्यवसाय चुनें</option><option>किराना</option><option>कपड़े</option><option>जूते</option><option>कॉस्मेटिक्स</option><option>मोबाइल</option><option>अन्य</option></select></label>
-<label>Password<input id="suPass" type="password" minlength="6" autocomplete="new-password" required></label>
-<label>Confirm Password<input id="suConfirm" type="password" minlength="6" autocomplete="new-password" required></label>
-<button id="signupBtn" type="button" class="authAction">Sign Up / Account बनाएं</button>
+
+<h2>Create Account ✨</h2>
+
+<label>
+User ID <span class="requiredStar">*</span>
+<input id="suUser" minlength="4" maxlength="30" required>
+</label>
+
+<label>
+आपका नाम <span class="requiredStar">*</span>
+<input id="suName" required>
+</label>
+
+<label>
+दुकान का नाम <span class="requiredStar">*</span>
+<input id="suShop" required>
+</label>
+
+<label>
+मोबाइल नंबर <span class="requiredStar">*</span>
+<input id="suPhone" inputmode="numeric" maxlength="10" required>
+</label>
+
+<label>
+व्यवसाय <span class="requiredStar">*</span>
+<select id="suProf" required>
+<option value="">व्यवसाय चुनें</option>
+<option>किराना</option>
+<option>कपड़े</option>
+<option>जूते</option>
+<option>कॉस्मेटिक्स</option>
+<option>मोबाइल</option>
+<option>अन्य</option>
+</select>
+</label>
+
+<label id="otherProfWrap" class="hidden">
+व्यवसाय का विवरण
+<input id="suOther">
+</label>
+
+<label>
+Password <span class="requiredStar">*</span>
+<input id="suPass" type="password" minlength="6" required>
+</label>
+
+<label>
+Confirm Password <span class="requiredStar">*</span>
+<input id="suConfirm" type="password" minlength="6" required>
+</label>
+
+<button id="signupBtn" class="authAction" type="button">
+Account बनाएं
+</button>
+
+<div class="authLinks">
+<button type="button" data-auth="login">← Sign In</button>
 </div>
-<div class="authLinks"><button type="button" onclick="authMode('login')">← Sign In पर वापस</button></div>
+
 </div>
+
+<div id="forgotCard" class="card hidden">
+
+<h2>Forgot Password 🔐</h2>
+
+<label>
+User ID
+<input id="fpUser">
+</label>
+
+<label>
+Registered Mobile
+<input id="fpPhone" inputmode="numeric" maxlength="10">
+</label>
+
+<label>
+New Password
+<input id="fpPass" type="password" minlength="6">
+</label>
+
+<label>
+Confirm Password
+<input id="fpConfirm" type="password" minlength="6">
+</label>
+
+<button id="forgotBtn" class="authAction" type="button">
+Password बदलें
+</button>
+
+<div class="authLinks">
+<button type="button" data-auth="login">← Sign In</button>
+</div>
+
+</div>
+
+</section>
+
+<section id="app" class="hidden">
+
+<div class="card topbar">
+
+<div>
+<h2 id="shopName"></h2>
+<div id="welcome" class="muted"></div>
+</div>
+
+<button id="topLogout" class="secondary" type="button">
+Logout
+</button>
+
+</div>
+
+<main id="content"></main>
+
+<nav id="nav">
+
+<button data-page="home">🏠<br>Home</button>
+<button data-page="stock">📦<br>Stock</button>
+<button data-page="sale">🧾<br>Sale</button>
+<button data-page="khata">📒<br>Khata</button>
+<button data-page="reports">📊<br>Reports</button>
+<button data-page="account">👤<br>Account</button>
+
+</nav>
+
+</section>
+
+</div>
+
+<div id="micStatus" class="micStatus"></div>
+
+<script>
+'use strict';
+
+(()=>{
+const KEY='lekho_local_v1';
+
+let db={
+  users:{},
+  current:null
+};
+
+let page='home';
+let voiceTarget='';
+
+const $=id=>document.getElementById(id);
+
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+
+const today=()=>new Date().toISOString().slice(0,10);
+
+const esc=s=>String(s??'').replace(
+  /[&<>"']/g,
+  m=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[m])
+);
+
+const money=v=>Number(v||0).toFixed(2);
+
+function msg(t,type='ok'){
+  const e=$('systemMsg');
+  e.textContent=t;
+  e.className='msg show '+type;
+
+  clearTimeout(msg.t);
+
+  msg.t=setTimeout(()=>{
+    e.className='msg';
+  },3000);
+}
+
+function save(){
+  try{
+    localStorage.setItem(KEY,JSON.stringify(db));
+    return true;
+  }catch(e){
+    msg('Data save नहीं हो सका','err');
+    return false;
+  }
+}
+
+function load(){
+  try{
+    const x=JSON.parse(localStorage.getItem(KEY)||'null');
+
+    if(x && x.users){
+      db=x;
+    }
+  }catch(e){
+    db={
+      users:{},
+      current:null
+    };
+  }
+}
+
+function user(){
+  return db.current && db.users[db.current]
+    ? db.users[db.current]
+    : null;
+}
+
+function authMode(mode){
+  $('loginCard').classList.toggle('hidden',mode!=='login');
+  $('signupCard').classList.toggle('hidden',mode!=='signup');
+  $('forgotCard').classList.toggle('hidden',mode!=='forgot');
+}
+
+function openApp(){
+
+  const u=user();
+
+  if(!u){
+    authMode('login');
+    $('app').classList.add('hidden');
+    $('auth').classList.remove('hidden');
+    return;
+  }
+
+  $('auth').classList.add('hidden');
+  $('app').classList.remove('hidden');
+
+  $('shopName').textContent=u.shop;
+  $('welcome').textContent=
+    'नमस्ते '+u.name+' • '+u.prof;
+
+  render();
+}
+
+function render(){
+
+  document.querySelectorAll('#nav button')
+    .forEach(b=>{
+      b.classList.toggle(
+        'active',
+        b.dataset.page===page
+      );
+    });
+
+  ({
+    home,
+    stock,
+    sale,
+    khata,
+    reports,
+    account
+  }[page]||home)();
+}
+
+function home(){
+
+  const u=user();
+
+  const low=u.items.filter(
+    x=>Number(x.qty)<=Number(x.min||0)
+  );
+
+  const due=u.khata.reduce(
+    (s,x)=>s+Number(x.due||0),
+    0
+  );
+
+  const sales=u.sales.filter(
+    x=>String(x.date).slice(0,10)===today()
+  );
+
+  const amount=sales.reduce(
+    (s,x)=>s+Number(x.total||0),
+    0
+  );
+
+  $('content').innerHTML=`
+
+  <div class="card">
+    <h2>🏠 Dashboard</h2>
+
+    <div class="grid">
+
+      <div class="stat">
+        Products<br>
+        <b>${u.items.length}</b>
+      </div>
+
+      <div class="stat">
+        Low Stock<br>
+        <b class="red">${low.length}</b>
+      </div>
+
+      <div class="stat">
+        आज बिक्री<br>
+        <b>₹${money(amount)}</b>
+      </div>
+
+      <div class="stat">
+        उधारी<br>
+        <b class="red">₹${money(due)}</b>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Quick Actions</h3>
+
+    <div class="row">
+
+      <button data-go="stock">
+        📦 Stock
+      </button>
+
+      <button data-go="sale">
+        🧾 Sale
+      </button>
+
+      <button data-go="khata">
+        📒 Khata
+      </button>
+
+    </div>
+  </div>
+
+  `;
+
+  $('content').onclick=e=>{
+
+    const b=e.target.closest('[data-go]');
+
+    if(b){
+      page=b.dataset.go;
+      render();
+    }
+
+  };
+}
+
+function productForm(existing=null){
+
+  const u=user();
+  const x=existing||{};
+
+  const m=document.createElement('div');
+
+  m.className='modal';
+
+  m.innerHTML=`
+
+  <div class="modalBox">
+
+    <h2>
+      ${existing?'✏️ Product Edit':'➕ Product Add'}
+    </h2>
+
+    <form id="productForm">
+
+      <label>
+        Product Name *
+        <input id="pName"
+          value="${esc(x.name)}"
+          required>
+      </label>
+
+      <div class="two">
+
+        <label>
+          Category
+
+          <select id="pCat">
+
+            <option>किराना</option>
+            <option>कपड़े</option>
+            <option>जूते</option>
+            <option>कॉस्मेटिक्स</option>
+            <option>मोबाइल</option>
+            <option>अन्य</option>
+
+          </select>
+
+        </label>
+
+        <label>
+          Unit
+
+          <input
+            id="pUnit"
+            value="${esc(x.unit||'pcs')}"
+            placeholder="pcs / kg / litre / box">
+        </label>
+
+      </div>
+
+      <div class="two">
+
+        <label>
+          Quantity
+
+          <input
+            id="pQty"
+            type="number"
+            min="0"
+            step="0.01"
+            value="${x.qty??0}"
+            required>
+        </label>
+
+        <label>
+          Low-stock limit
+
+          <input
+            id="pMin"
+            type="number"
+            min="0"
+            step="0.01"
+            value="${x.min??0}">
+        </label>
+
+      </div>
+
+      <div class="two">
+
+        <label>
+          Buy Price ₹
+
+          <input
+            id="pBuy"
+            type="number"
+            min="0"
+            step="0.01"
+            value="${x.buy??0}">
+        </label>
+
+        <label>
+          Sale Price ₹
+
+          <input
+            id="pSell"
+            type="number"
+            min="0"
+            step="0.01"
+            value="${x.sell??0}">
+        </label>
+
+      </div>
+
+      <div class="two">
+
+        <label>
+          Brand
+          <input id="pBrand" value="${esc(x.brand)}">
+        </label>
+
+        <label>
+          Color / Shade
+          <input
+            id="pColor"
+            value="${esc(x.color||x.shade)}">
+        </label>
+
+      </div>
+
+      <div class="two">
+
+        <label>
+          Size / Number
+          <input id="pSize" value="${esc(x.size)}">
+        </label>
+
+        <label>
+          Design / Model
+          <input
+            id="pDesign"
+            value="${esc(x.design||x.model)}">
+        </label>
+
+      </div>
+
+      <label>
+        Expiry (optional)
+
+        <input
+          id="pExpiry"
+          type="date"
+          value="${esc(x.expiry)}">
+      </label>
+
+      <label>
+        Details
+
+        <input
+          id="pDetails"
+          value="${esc(x.details)}">
+      </label>
+
+      <div class="row formActions">
+
+        <button
+          type="button"
+          id="pCancel"
+          class="secondary">
+          Cancel
+        </button>
+
+        <button type="submit">
+          Save
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+  `;
+
+  document.body.appendChild(m);
+
+  $('pCat').value=
+    x.category||u.prof||'अन्य';
+
+  $('pCancel').onclick=()=>{
+    m.remove();
+  };
+
+  $('productForm').onsubmit=e=>{
+
+    e.preventDefault();
+
+    const data={
+
+      id:x.id||uid(),
+
+      name:$('pName').value.trim(),
+
+      category:$('pCat').value,
+
+      unit:$('pUnit').value.trim()||'pcs',
+
+      qty:Number($('pQty').value)||0,
+
+      min:Number($('pMin').value)||0,
+
+      buy:Number($('pBuy').value)||0,
+
+      sell:Number($('pSell').value)||0,
+
+      brand:$('pBrand').value.trim(),
+
+      color:$('pColor').value.trim(),
+
+      size:$('pSize').value.trim(),
+
+      design:$('pDesign').value.trim(),
+
+      expiry:$('pExpiry').value,
+
+      details:$('pDetails').value.trim()
+
+    };
+
+    if(!data.name||data.qty<0){
+      msg('Product details सही भरें','err');
+      return;
+    }
+
+    if(existing){
+
+      const i=u.items.findIndex(
+        z=>z.id===x.id
+      );
+
+      if(i>=0){
+        u.items[i]=data;
+      }
+
+    }else{
+
+      u.items.push(data);
+
+    }
+
+    if(save()){
+
+      m.remove();
+
+      stock();
+
+      msg(
+        existing
+          ?'Product update हो गया ✓'
+          :'Product add हो गया ✓'
+      );
+
+    }
+
+  };
+}
+
+function stock(){
+
+  const u=user();
+
+  $('content').innerHTML=`
+
+  <div class="card">
+
+    <div class="sectionTitle">
+
+      <div>
+        <h2>📦 पूरा Stock</h2>
+
+        <div class="muted">
+          कुल ${u.items.length} products
+        </div>
+      </div>
+
+      <button id="addItem">
+        + Add Product
+      </button>
+
+    </div>
+
+    <input
+      id="stockSearch"
+      placeholder="Product, brand, color, model खोजें…">
+
+    <div id="stockAlerts"></div>
+
+    <div id="stockList"></div>
+
+  </div>
+
+  `;
+
+  $('addItem').onclick=()=>{
+    productForm();
+  };
+
+  function draw(){
+
+    const q=$('stockSearch')
+      .value
+      .toLowerCase();
+
+    const a=u.items.filter(x=>
+      JSON.stringify(x)
+        .toLowerCase()
+        .includes(q)
+    );
+
+    const low=u.items.filter(
+      x=>Number(x.qty)<=Number(x.min||0)
+    );
+
+    $('stockAlerts').innerHTML=
+      low.length
+      ?`
+        <div class="alert">
+          ⚠️ Low Stock:
+          <b>${low.length}</b> product(s)
+        </div>
+      `
+      :'';
+
+    $('stockList').innerHTML=
+
+      a.length
+
+      ?a.map(x=>`
+
+        <div class="item
+          ${Number(x.qty)<=Number(x.min||0)
+            ?'low'
+            :''
+          }">
+
+          <b>${esc(x.name)}</b>
+
+          <span class="pill">
+            ${money(x.qty)}
+            ${esc(x.unit)}
+          </span>
+
+          <div class="muted">
+            ${
+              [
+                x.category,
+                x.brand,
+                x.color,
+                x.size,
+                x.design,
+                x.details
+              ]
+              .filter(Boolean)
+              .map(esc)
+              .join(' • ')
+            }
+          </div>
+
+          <div>
+            खरीद ₹${money(x.buy)}
+            •
+            बिक्री ₹${money(x.sell)}
+          </div>
+
+          <div class="stockItemActions">
+
+            <button
+              class="secondary"
+              data-edit="${x.id}">
+              ✏️ Edit
+            </button>
+
+            <button
+              class="danger"
+              data-del="${x.id}">
+              🗑️ Delete
+            </button>
+
+          </div>
+
+        </div>
+
+      `).join('')
+
+      :`
+        <div class="empty">
+          कोई product नहीं मिला।
+        </div>
+      `;
+  }
+
+  draw();
+
+  $('stockSearch').oninput=draw;
+
+  $('stockList').onclick=e=>{
+
+    const b=e.target.closest('button');
+
+    if(!b)return;
+
+    const x=u.items.find(
+      z=>z.id===(b.dataset.edit||b.dataset.del)
+    );
+
+    if(!x)return;
+
+    if(b.dataset.edit){
+
+      productForm(x);
+
+    }else{
+
+      if(!confirm(
+        'क्या '+x.name+' को delete करना है?'
+      ))return;
+
+      u.items=u.items.filter(
+        z=>z.id!==x.id
+      );
+
+      if(save()){
+
+        draw();
+
+        msg(
+          'Product delete हो गया ✓'
+        );
+
+      }
+
+    }
+
+  };
+}
+
+function sale(){
+
+  const u=user();
+
+  $('content').innerHTML=`
+
+  <div class="card">
+
+    <h2>🧾 Sale</h2>
+
+    <form id="saleForm">
+
+      <label>
+        Product
+
+        <select id="saleProduct" required>
+
+          <option value="">
+            Product चुनें
+          </option>
+
+          ${
+            u.items.map(x=>`
+              <option value="${x.id}">
+                ${esc(x.name)}
+                — Stock ${money(x.qty)}
+              </option>
+            `).join('')
+          }
+
+        </select>
+
+      </label>
+
+      <div class="two">
+
+        <label>
+          Quantity
+
+          <input
+            id="saleQty"
+            type="number"
+            min="0.01"
+            step="0.01"
+            value="1"
+            required>
+        </label>
+
+        <label>
+          Sale Price ₹
+
+          <input
+            id="salePrice"
+            type="number"
+            min="0"
+            step="0.01"
+            required>
+        </label>
+
+      </div>
+
+      <label>
+        Payment
+
+        <select id="salePay">
+
+          <option value="paid">
+            Cash / Paid
+          </option>
+
+          <option value="credit">
+            Credit / उधार
+          </option>
+
+        </select>
+
+      </label>
+
+      <div
+        id="creditFields"
+        class="hidden">
+
+        <label>
+          Customer Name
+
+          <input id="saleCustomer">
+        </label>
+
+        <div class="two">
+
+          <label>
+            Received ₹
+
+            <input
+              id="saleReceived"
+              type="number"
+              min="0"
+              step="0.01"
+              value="0">
+          </label>
+
+          <label>
+            Promise Date
+
+            <input
+              id="salePromise"
+              type="date">
+          </label>
+
+        </div>
+
+      </div>
+
+      <label>
+        Sale Date
+
+        <input
+          id="saleDate"
+          type="date"
+          value="${today()}"
+          required>
+      </label>
+
+      <div id="saleTotal" class="stat">
+        Total: ₹0.00
+      </div>
+
+      <div class="row formActions">
+
+        <button
+          type="button"
+          id="saleCancel"
+          class="secondary">
+          Cancel
+        </button>
+
+        <button type="submit">
+          ✓ बिक्री दर्ज करें
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="card">
+
+    <h3>आज की बिक्री</h3>
+
+    <div id="todaySales"></div>
+
+  </div>
+
+  `;
+
+  $('saleProduct').onchange=()=>{
+
+    const x=u.items.find(
+      z=>z.id===$('saleProduct').value
+    );
+
+    $('salePrice').value=
+      x?x.sell:'';
+
+    calc();
+
+  };
+
+  function calc(){
+
+    const q=
+      Number($('saleQty').value)||0;
+
+    const r=
+      Number($('salePrice').value)||0;
+
+    $('saleTotal').textContent=
+      'Total: ₹'+money(q*r);
+  }
+
+  $('saleQty').oninput=calc;
+  $('salePrice').oninput=calc;
+
+  $('salePay').onchange=()=>{
+
+    $('creditFields')
+      .classList
+      .toggle(
+        'hidden',
+        $('salePay').value!=='credit'
+      );
+
+  };
+
+  $('saleCancel').onclick=()=>{
+    page='home';
+    render();
+  };
+
+  $('saleForm').onsubmit=e=>{
+
+    e.preventDefault();
+
+    const x=u.items.find(
+      z=>z.id===$('saleProduct').value
+    );
+
+    const q=
+      Number($('saleQty').value);
+
+    const rate=
+      Number($('salePrice').value);
+
+    const pay=
+      $('salePay').value;
+
+    const customer=
+      $('saleCustomer').value.trim();
+
+    const received=
+      Number($('saleReceived').value)||0;
+
+    if(!x)
+      return msg(
+        'पहले Product चुनें',
+        'err'
+      );
+
+    if(!q||q>x.qty)
+      return msg(
+        'Quantity/Stock सही भरें',
+        'err'
+      );
+
+    if(!Number.isFinite(rate)||rate<0)
+      return msg(
+        'Sale price सही भरें',
+        'err'
+      );
+
+    const total=q*rate;
+
+    if(pay==='credit'&&!customer)
+      return msg(
+        'उधार के लिए Customer Name डालें',
+        'err'
+      );
+
+    if(pay==='credit'&&received>total)
+      return msg(
+        'Received total से ज्यादा नहीं हो सकता',
+        'err'
+      );
+
+    const s={
+
+      id:uid(),
+
+      date:
+        $('saleDate').value+
+        'T12:00:00',
+
+      itemId:x.id,
+
+      item:x.name,
+
+      qty:q,
+
+      rate,
+
+      total,
+
+      pay,
+
+      customer
+
+    };
+
+    x.qty-=q;
+
+    if(pay==='credit'){
+
+      const k={
+
+        id:uid(),
+
+        saleId:s.id,
+
+        customer,
+
+        itemId:x.id,
+
+        item:x.name,
+
+        total,
+
+        paid:received,
+
+        due:Math.max(0,total-received),
+
+        promise:$('salePromise').value,
+
+        date:s.date
+
+      };
+
+      s.khataId=k.id;
+
+      u.khata.push(k);
+
+    }
+
+    u.sales.push(s);
+
+    if(save()){
+
+      e.target.reset();
+
+      $('saleQty').value=1;
+
+      $('saleDate').value=today();
+
+      $('creditFields')
+        .classList
+        .add('hidden');
+
+      sale();
+
+      msg(
+        'बिक्री दर्ज हो गई ✓ Stock भी कम हुआ'
+      );
+
+    }
+
+  };
+
+  drawToday();
+
+  function drawToday(){
+
+    const a=u.sales.filter(
+      x=>String(x.date).slice(0,10)===today()
+    );
+
+    $('todaySales').innerHTML=
+
+      a.length
+
+      ?a.slice().reverse().map(x=>`
+
+        <div class="item">
+
+          <b>${esc(x.item)}</b>
+
+          • ${x.qty}
+
+          • ₹${money(x.total)}
+
+          • ${
+            x.pay==='credit'
+              ?'📒 Credit'
+              :'💵 Cash'
+          }
+
+        </div>
+
+      `).join('')
+
+      :`
+        <div class="empty">
+          आज अभी कोई बिक्री नहीं हुई।
+        </div>
+      `;
+  }
+}
+
+function khata(){
+
+  const u=user();
+
+  $('content').innerHTML=`
+
+  <div class="card">
+
+    <h2>📒 Khata / उधारी</h2>
+
+    <input
+      id="khataSearch"
+      placeholder="Customer या item खोजें…">
+
+    <div id="khataList"></div>
+
+  </div>
+
+  `;
+
+  function draw(){
+
+    const q=
+      $('khataSearch')
+      .value
+      .toLowerCase();
+
+    const a=u.khata.filter(
+      x=>
+        (x.customer+' '+x.item)
+        .toLowerCase()
+        .includes(q)
+    );
+
+    const due=a.reduce(
+      (s,x)=>s+Number(x.due||0),
+      0
+    );
+
+    $('khataList').innerHTML=
+
+      '<div class="stat">'+
+      'दिख रही उधारी: '+
+      '<b class="red">₹'+
+      money(due)+
+      '</b></div>'+
+
+      (
+
+        a.length
+
+        ?a.map(x=>`
+
+          <div class="item">
+
+            <b>${esc(x.customer)}</b>
+
+            <span class="tag">
+              ${esc(x.item)}
+            </span>
+
+            <p>
+              कुल ₹${money(x.total)}
+              • Paid ₹${money(x.paid)}
+              •
+              <span class="red">
+                बाकी ₹${money(x.due)}
+              </span>
+            </p>
+
+            <label>
+              Paid Amount
+
+              <input
+                data-paid="${x.id}"
+                type="number"
+                min="0"
+                max="${x.total}"
+                step="0.01"
+                value="${x.paid}">
+            </label>
+
+            <label>
+              Promise Date
+
+              <input
+                data-promise="${x.id}"
+                type="date"
+                value="${esc(x.promise||'')}">
+            </label>
+
+            <div class="row">
+
+              <button data-update="${x.id}">
+                Update
+              </button>
+
+              <button
+                class="success"
+                data-full="${x.id}">
+                पूरा Payment मिला
+              </button>
+
+            </div>
+
+          </div>
+
+        `).join('')
+
+        :`
+          <div class="empty">
+            अभी कोई उधारी नहीं है।
+          </div>
+        `
+      );
+  }
+
+  draw();
+
+  $('khataSearch').oninput=draw;
+
+  $('khataList').onclick=e=>{
+
+    const b=e.target.closest('button');
+
+    if(!b)return;
+
+    const x=u.khata.find(
+      z=>z.id===(b.dataset.update||b.dataset.full)
+    );
+
+    if(!x)return;
+
+    if(b.dataset.full){
+
+      x.paid=Number(x.total);
+      x.due=0;
+
+    }else{
+
+      const p=Math.min(
+        Number(x.total),
+        Math.max(
+          0,
+          Number(
+            $('[data-paid="'+x.id+'"]').value
+          )||0
+        )
+      );
+
+      x.paid=p;
+      x.due=Number(x.total)-p;
+
+      x.promise=
+        $('[data-promise="'+x.id+'"]').value;
+    }
+
+    if(x.due<=0){
+
+      u.khata=u.khata.filter(
+        z=>z.id!==x.id
+      );
+
+    }
+
+    if(save()){
+
+      draw();
+
+      msg(
+        x.due<=0
+          ?'पूरा Payment हो गया ✓ Khata से entry हट गई'
+          :'Khata update हो गया ✓'
+      );
+
+    }
+
+  };
+}
+
+function reports(){
+
+  const u=user();
+
+  $('content').innerHTML=`
+
+  <div class="card">
+
+    <h2>📊 Reports</h2>
+
+    <div class="two">
+
+      <label>
+        From
+        <input id="rf" type="date">
+      </label>
+
+      <label>
+        To
+        <input id="rt" type="date">
+      </label>
+
+    </div>
+
+    <div class="row">
+
+      <button
+        id="rc"
+        class="secondary">
+        Clear
+      </button>
+
+      <button
+        id="csv"
+        class="secondary">
+        ⬇️ Export CSV
+      </button>
+
+    </div>
+
+    <div id="rstats"></div>
+
+  </div>
+
+  <div class="card">
+
+    <h3>Sales History</h3>
+
+    <div
+      id="rtable"
+      class="tablewrap">
+    </div>
+
+  </div>
+
+  `;
+
+  const filtered=()=>u.sales.filter(
+    x=>
+      (!$('rf').value||
+        String(x.date).slice(0,10)>=$('rf').value)
+      &&
+      (!$('rt').value||
+        String(x.date).slice(0,10)<=$('rt').value)
+  );
+
+  function draw(){
+
+    const a=filtered();
+
+    const total=a.reduce(
+      (s,x)=>s+Number(x.total),
+      0
+    );
+
+    $('rstats').innerHTML=`
+
+      <div class="grid">
+
+        <div class="stat">
+          Sales<br>
+          <b>₹${money(total)}</b>
+        </div>
+
+        <div class="stat">
+          Count<br>
+          <b>${a.length}</b>
+        </div>
+
+      </div>
+    `;
+
+    $('rtable').innerHTML=
+
+      a.length
+
+      ?`
+
+        <table class="table">
+
+          <tr>
+            <th>Date</th>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Payment</th>
+          </tr>
+
+          ${
+            a.slice().reverse().map(x=>`
+
+              <tr>
+
+                <td>
+                  ${esc(
+                    String(x.date).slice(0,10)
+                  )}
+                </td>
+
+                <td>
+                  ${esc(x.item)}
+                </td>
+
+                <td>
+                  ${x.qty}
+                </td>
+
+                <td>
+                  ₹${money(x.total)}
+                </td>
+
+                <td>
+                  ${esc(
+                    x.pay==='credit'
+                      ?'Credit'
+                      :'Cash'
+                  )}
+                </td>
+
+              </tr>
+
+            `).join('')
+          }
+
+        </table>
+
+      `
+
+      :`
+
+        <div class="empty">
+          कोई sales नहीं है।
+        </div>
+      `;
+  }
+
+  ['rf','rt'].forEach(id=>{
+    $(id).onchange=draw;
+  });
+
+  $('rc').onclick=()=>{
+
+    $('rf').value='';
+    $('rt').value='';
+
+    draw();
+  };
+
+  $('csv').onclick=()=>{
+
+    const a=filtered();
+
+    const csv=[
+      [
+        'Date',
+        'Product',
+        'Quantity',
+        'Rate',
+        'Total',
+        'Payment',
+        'Customer'
+      ],
+
+      ...a.map(x=>[
+        String(x.date).slice(0,10),
+        x.item,
+        x.qty,
+        x.rate,
+        x.total,
+        x.pay,
+        x.customer||''
+      ])
+
+    ]
+    .map(r=>
+      r.map(v=>
+        '"'+
+        String(v??'')
+          .replaceAll('"','""')+
+        '"'
+      ).join(',')
+    )
+    .join('\n');
+
+    download(
+      csv,
+      'lekho-sales-'+today()+'.csv',
+      'text/csv'
+    );
+
+    msg('CSV export हो गया ✓');
+  };
+
+  draw();
+}
+
+function download(text,name,type){
+
+  const a=document.createElement('a');
+
+  const url=URL.createObjectURL(
+    new Blob([text],{type})
+  );
+
+  a.href=url;
+  a.download=name;
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  setTimeout(
+    ()=>URL.revokeObjectURL(url),
+    1000
+  );
+}
+
+function account(){
+
+  const u=user();
+
+  $('content').innerHTML=`
+
+  <div class="card">
+
+    <h2>👤 Account</h2>
+
+    <p>
+
+      <b>नाम:</b>
+      ${esc(u.name)}
+
+      <br>
+
+      <b>दुकान:</b>
+      ${esc(u.shop)}
+
+      <br>
+
+      <b>User ID:</b>
+      ${esc(u.userId)}
+
+      <br>
+
+      <b>मोबाइल:</b>
+      ${esc(u.phone)}
+
+      <br>
+
+      <b>व्यवसाय:</b>
+      ${esc(u.prof)}
+
+    </p>
+
+    <hr>
+
+    <h3>🔐 Password बदलें</h3>
+
+    <label>
+      Current Password
+
+      <input
+        id="op"
+        type="password">
+    </label>
+
+    <label>
+      New Password
+
+      <input
+        id="np"
+        type="password"
+        minlength="6">
+    </label>
+
+    <button id="cp">
+      Password Update
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <h3>💾 Backup</h3>
+
+    <button id="backup">
+      Backup JSON
+    </button>
+
+  </div>
+
+  `;
+
+  $('cp').onclick=()=>{
+
+    if($('op').value!==u.password)
+      return msg(
+        'Current Password गलत है',
+        'err'
+      );
+
+    if($('np').value.length<6)
+      return msg(
+        'New Password कम से कम 6 अक्षर का रखें',
+        'err'
+      );
+
+    u.password=$('np').value;
+
+    if(save())
+      msg(
+        'Password update हो गया ✓'
+      );
+  };
+
+  $('backup').onclick=()=>{
+
+    download(
+      JSON.stringify({
+        app:'लेखो ऐप',
+        version:1,
+        user:{
+          userId:u.userId,
+          name:u.name,
+          shop:u.shop,
+          phone:u.phone,
+          prof:u.prof
+        },
+        items:u.items,
+        sales:u.sales,
+        khata:u.khata
+      },null,2),
+
+      'lekho-backup-'+today()+'.json',
+
+      'application/json'
+    );
+
+    msg('Backup बन गया ✓');
+  };
+}
+
+function startVoice(id){
+
+  voiceTarget=id;
+
+  $('micStatus').textContent=
+    '🎤 सुन रहा हूँ…';
+
+  $('micStatus')
+    .classList
+    .add('show');
+
+  if(
+    window.LekhoMic &&
+    window.LekhoMic.startListening
+  ){
+
+    window.LekhoMic.startListening(id);
+
+  }else if(
+    'webkitSpeechRecognition' in window ||
+    'SpeechRecognition' in window
+  ){
+
+    const R=
+      window.SpeechRecognition||
+      window.webkitSpeechRecognition;
+
+    const r=new R();
+
+    r.lang='hi-IN';
+    r.interimResults=false;
+    r.maxAlternatives=1;
+
+    r.onresult=e=>{
+
+      setMicText(
+        id,
+        e.results[0][0].transcript
+      );
+
+    };
+
+    r.onerror=()=>{
+      micError('आवाज़ समझ नहीं आई');
+    };
+
+    r.onend=()=>{
+      $('micStatus')
+        .classList
+        .remove('show');
+    };
+
+    r.start();
+
+  }else{
+
+    micError(
+      'इस फोन में voice recognition उपलब्ध नहीं है'
+    );
+
+  }
+}
+
+window.setMicText=(id,text)=>{
+
+  const e=$(id);
+
+  if(e && e.tagName==='INPUT')
+    e.value=text;
+
+  $('micStatus')
+    .classList
+    .remove('show');
+
+  msg(
+    'आवाज़ दर्ज हो गई ✓'
+  );
+};
+
+window.micError=t=>{
+
+  $('micStatus')
+    .classList
+    .remove('show');
+
+  msg(t,'err');
+};
+
+$('loginBtn').onclick=()=>{
+
+  const id=
+    $('loginUser')
+      .value
+      .trim()
+      .toLowerCase();
+
+  const p=$('loginPass').value;
+
+  if(!id||!p)
+    return msg(
+      'User ID और Password भरें',
+      'err'
+    );
+
+  const u=db.users[id];
+
+  if(!u||u.password!==p)
+    return msg(
+      'User ID या Password गलत है',
+      'err'
+    );
+
+  db.current=id;
+
+  save();
+
+  openApp();
+};
+
+$('showSignup').onclick=()=>{
+  authMode('signup');
+};
+
+$('showForgot').onclick=()=>{
+  authMode('forgot');
+};
+
+document
+  .querySelectorAll('[data-auth]')
+  .forEach(b=>{
+    b.onclick=()=>{
+      authMode(b.dataset.auth);
+    };
+  });
+
+$('showLoginPass').onchange=()=>{
+
+  $('loginPass').type=
+    $('showLoginPass').checked
+      ?'text'
+      :'password';
+};
+
+$('suProf').onchange=()=>{
+
+  $('otherProfWrap')
+    .classList
+    .toggle(
+      'hidden',
+      $('suProf').value!=='अन्य'
+    );
+};
+
+$('signupBtn').onclick=()=>{
+
+  const id=
+    $('suUser')
+      .value
+      .trim()
+      .toLowerCase();
+
+  const name=
+    $('suName').value.trim();
+
+  const shop=
+    $('suShop').value.trim();
+
+  const phone=
+    $('suPhone')
+      .value
+      .replace(/\D/g,'');
+
+  const prof=
+    $('suProf').value;
+
+  const pass=
+    $('suPass').value;
+
+  if(!/^[a-z0-9_]{4,30}$/.test(id))
+    return msg(
+      'User ID 4–30 letters/numbers/_ रखें',
+      'err'
+    );
+
+  if(db.users[id])
+    return msg(
+      'यह User ID पहले से मौजूद है',
+      'err'
+    );
+
+  if(!/^\d{10}$/.test(phone))
+    return msg(
+      '10 digit mobile number डालें',
+      'err'
+    );
+
+  if(!name||!shop)
+    return msg(
+      'नाम और दुकान का नाम भरें',
+      'err'
+    );
+
+  if(!prof)
+    return msg(
+      'व्यवसाय चुनें',
+      'err'
+    );
+
+  if(pass.length<6)
+    return msg(
+      'Password कम से कम 6 अक्षर का रखें',
+      'err'
+    );
+
+  if(pass!==$('suConfirm').value)
+    return msg(
+      'Password और Confirm Password अलग हैं',
+      'err'
+    );
+
+  db.users[id]={
+
+    userId:id,
+
+    name,
+
+    shop,
+
+    phone,
+
+    prof:
+      prof==='अन्य'
+        ?($('suOther').value.trim()||'अन्य')
+        :prof,
+
+    password:pass,
+
+    items:[],
+
+    sales:[],
+
+    khata:[]
+
+  };
+
+  db.current=null;
+
+  if(save()){
+
+    authMode('login');
+
+    $('loginUser').value=id;
+
+    $('loginPass').value='';
+
+    msg(
+      'Account बन गया ✓ अब Sign In करें'
+    );
+  }
+};
+
+$('forgotBtn').onclick=()=>{
+
+  const id=
+    $('fpUser')
+      .value
+      .trim()
+      .toLowerCase();
+
+  const phone=
+    $('fpPhone')
+      .value
+      .replace(/\D/g,'');
+
+  const p=
+    $('fpPass').value;
+
+  const u=db.users[id];
+
+  if(!u||u.phone!==phone)
+    return msg(
+      'User ID या mobile match नहीं हुआ',
+      'err'
+    );
+
+  if(p.length<6)
+    return msg(
+      'New Password कम से कम 6 अक्षर का रखें',
+      'err'
+    );
+
+  if(p!==$('fpConfirm').value)
+    return msg(
+      'Password match नहीं है',
+      'err'
+    );
+
+  u.password=p;
+
+  if(save()){
+
+    authMode('login');
+
+    $('loginUser').value=id;
+
+    $('loginPass').value='';
+
+    msg(
+      'Password बदल गया ✓'
+    );
+  }
+};
+
+$('topLogout').onclick=()=>{
+
+  db.current=null;
+
+  save();
+
+  page='home';
+
+  authMode('login');
+
+  $('app').classList.add('hidden');
+
+  $('auth').classList.remove('hidden');
+
+  msg(
+    'Logout हो गया ✓'
+  );
+};
+
+$('nav').onclick=e=>{
+
+  const b=
+    e.target.closest(
+      'button[data-page]'
+    );
+
+  if(b){
+
+    page=b.dataset.page;
+
+    render();
+
+    scrollTo(0,0);
+  }
+};
+
+load();
+
+if(user())
+  openApp();
+else
+  authMode('login');
+
+})();
+</script>
+
+</body>
+</html>
