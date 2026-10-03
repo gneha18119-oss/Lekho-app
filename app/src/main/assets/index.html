@@ -140,4 +140,31 @@ body{background:radial-gradient(circle at 12% 8%,rgba(99,102,241,.18),transparen
 <button id="signupBtn" type="button" class="authAction">Sign Up / Account बनाएं</button>
 </div>
 <div class="authLinks"><button type="button" onclick="authMode('login')">← Sign In पर वापस</button></div>
+  
+</div>
+  </div>
+
+<div id="forgotCard" class="card forgotCard">
+<h2>Forgot Password 🔐</h2><p class="muted">User ID और वही मोबाइल नंबर डालकर नया password बनाएं।</p>
+<label>User ID<input id="fpUser" placeholder="User ID"></label>
+<label>Mobile Number<input id="fpPhone" inputmode="numeric" maxlength="10" placeholder="10 digit mobile"></label>
+<label>New Password<input id="fpPass" type="password" minlength="6" placeholder="नया Password"></label>
+<label>Confirm Password<input id="fpConfirm" type="password" minlength="6" placeholder="Password फिर डालें"></label>
+<button id="forgotBtn" class="authAction" type="button">Password बदलें</button>
+<div class="authLinks"><button id="backLogin" type="button">← Sign In पर वापस</button></div>
+</div>
+
+<div id="signupCard" class="card hidden">
+<h2>Create Account ✨</h2><p class="muted">पहले अपनी User ID बनाएं, फिर उसी से Login करें।</p>
+<div id="signupForm">
+<label>User ID<input id="suUser" autocomplete="username" autocapitalize="none" placeholder="जैसे: neha123" minlength="4" maxlength="30" required><div class="fieldHint">4–30 अक्षर/अंक, बिना space के</div></label>
+<label>आपका नाम<input id="suName" autocomplete="name" required></label>
+<label>दुकान का नाम<input id="suShop" required></label>
+<label>मोबाइल नंबर<input id="suPhone" inputmode="numeric" maxlength="10" required></label>
+<label>व्यवसाय<select id="suProf" required><option value="">व्यवसाय चुनें</option><option>किराना</option><option>कपड़े</option><option>जूते</option><option>कॉस्मेटिक्स</option><option>मोबाइल</option><option>अन्य</option></select></label>
+<label>Password<input id="suPass" type="password" minlength="6" autocomplete="new-password" required></label>
+<label>Confirm Password<input id="suConfirm" type="password" minlength="6" autocomplete="new-password" required></label>
+<button id="signupBtn" type="button" class="authAction">Sign Up / Account बनाएं</button>
+</div>
+<div class="authLinks"><button type="button" onclick="authMode('login')">← Sign In पर वापस</button></div>
 </div>
