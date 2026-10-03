@@ -22,11 +22,49 @@ border:1px solid #e2e8f0;
 border-radius:14px;
 box-shadow:0 6px 18px rgba(15,23,42,.12)
 }
+.stockItemActions{
+display:flex;
+gap:8px;
+margin-top:12px;
+margin-bottom:8px;
+position:relative;
+z-index:2;
+width:100%;
+box-sizing:border-box;
+}
+
 .stockItemActions button{
 flex:1;
-min-height:46px;
-touch-action:manipulation
-}{background:#f1f5f9!important;color:#334155!important}.modalbox{box-shadow:0 20px 60px rgba(15,23,42,.22)}
+min-height:48px;
+touch-action:manipulation;
+position:relative;
+z-index:3;
+}
+
+#stockList{
+padding-bottom:24px;
+}
+
+.appMain{
+min-height:calc(100vh - 90px);
+overflow:visible;
+padding-bottom:170px;
+}
+
+.wrap{
+overflow:visible;
+padding-bottom:170px;
+}
+
+@media(max-width:480px){
+.wrap{
+padding:8px 8px 170px;
+}
+
+.stockItemActions button{
+min-height:50px;
+}
+}
 .productModal{padding:0;overflow:auto;align-items:flex-start}.productModal .modalbox{width:min(650px,100%);min-height:100vh;max-height:none;border-radius:0;padding:16px 16px 92px;overflow:visible}.productModal .modalHeader{position:static;padding:0 0 12px}.productModal .modalHeader button{display:none}.productModal .modalActions{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(650px,100%);padding:10px 16px;background:#fff;border-top:1px solid #e2e8f0;box-shadow:0 -6px 18px rgba(15,23,42,.10);z-index:50}.productModal .modalActions button{min-height:48px}.productModal .cancelBtn{background:#e2e8f0!important;color:#172033!important}
 </style>
 
