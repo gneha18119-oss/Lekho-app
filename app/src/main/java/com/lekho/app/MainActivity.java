@@ -12,8 +12,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MainActivity extends Activity {
 
@@ -60,7 +61,6 @@ public class MainActivity extends Activity {
                         Manifest.permission.RECORD_AUDIO
                 ) != PackageManager.PERMISSION_GRANTED
         ) {
-
             requestPermissions(
                     new String[]{
                             Manifest.permission.RECORD_AUDIO
@@ -80,14 +80,12 @@ public class MainActivity extends Activity {
                         Manifest.permission.RECORD_AUDIO
                 ) != PackageManager.PERMISSION_GRANTED
         ) {
-
             requestPermissions(
                     new String[]{
                             Manifest.permission.RECORD_AUDIO
                     },
                     MIC_PERMISSION
             );
-
             return;
         }
 
@@ -105,7 +103,7 @@ public class MainActivity extends Activity {
 
             intent.putExtra(
                     RecognizerIntent.EXTRA_LANGUAGE,
-                    Locale.getDefault()
+                    "hi-IN"
             );
 
             intent.putExtra(
@@ -133,15 +131,12 @@ public class MainActivity extends Activity {
 
     private void sendError(String message) {
 
-        String safe =
-                message
-                        .replace("\\", "\\\\")
-                        .replace("'", "\\'")
-                        .replace("\n", " ")
-                        .replace("\r", " ");
+        String safe = JSONObject.quote(
+                message == null ? "" : message
+        );
 
         webView.evaluateJavascript(
-                "micError('" + safe + "')",
+                "micError(" + safe + ")",
                 null
         );
     }
@@ -180,22 +175,22 @@ public class MainActivity extends Activity {
 
                 String text =
                         results.get(0)
-                                .replace("\\", "\\\\")
-                                .replace("'", "\\'")
                                 .replace("\n", " ")
-                                .replace("\r", " ");
+                                .replace("\r", " ")
+                                .trim();
 
-                String id =
-                        inputId
-                                .replace("\\", "\\\\")
-                                .replace("'", "\\'");
+                String safeId =
+                        JSONObject.quote(inputId);
+
+                String safeText =
+                        JSONObject.quote(text);
 
                 webView.evaluateJavascript(
-                        "setMicText('" +
-                                id +
-                                "','" +
-                                text +
-                                "')",
+                        "setMicText(" +
+                                safeId +
+                                "," +
+                                safeText +
+                                ")",
                         null
                 );
 
