@@ -701,6 +701,35 @@ function msg(t,type='ok'){
   },3000);
 }
 
+window.setMicText=function(id,text){
+  const t=String(text||'').trim();
+  const btn=document.getElementById(id);
+
+  if(id==='smartStockMic'){
+    const root=btn&&btn.closest('.productBox');
+    if(root&&t) fillSmartStock(root,t);
+  }else if(id==='smartSaleMic'){
+    if(t) fillSmartSale(t,'sale');
+  }else if(id==='smartEditMic'){
+    if(t) fillSmartSale(t,'edit');
+  }
+
+  if(btn) btn.classList.remove('listening');
+
+  if(t){
+    msg('आवाज़ से जानकारी भर गई ✓','ok');
+  }else{
+    msg('आवाज़ समझ नहीं आई','err');
+  }
+};
+
+window.micError=function(message){
+  document.querySelectorAll('.micBtn.listening')
+    .forEach(e=>e.classList.remove('listening'));
+
+  msg(message||'Mic error','err');
+};
+
 function save(){
   try{
     localStorage.setItem(KEY,JSON.stringify(db));
