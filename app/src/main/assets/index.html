@@ -444,6 +444,38 @@ button{
   }
 }
 </style>
+  <style>
+/* Lekho mobile button fix */
+@media(max-width:480px){
+
+  #saleForm > .row{
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    gap:8px!important;
+  }
+
+  #saleForm > .row > button{
+    min-width:0!important;
+    width:50%!important;
+    flex:1 1 50%!important;
+  }
+
+  .formActions{
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    gap:8px!important;
+  }
+
+  .formActions > button{
+    min-width:0!important;
+    width:50%!important;
+    flex:1 1 50%!important;
+  }
+
+}
+</style>
 </head>
 
 <body>
